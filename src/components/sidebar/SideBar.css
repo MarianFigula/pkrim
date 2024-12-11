@@ -1,0 +1,35 @@
+
+.grey-zone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.grey-zone.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.sidebar {
+    width: min(200px, 50%);
+    min-height: 100vh;
+    background-color: var(--white);
+    padding: 20px;
+    position: fixed;
+    z-index: 3;
+    transform: translateX(-110%);
+    top: 0;
+    transition: transform 0.3s ease-in-out;
+    border-right: 1px solid var(--header-background-color);
+}
+
+.sidebar.show {
+    transform: translateX(-10px);
+}

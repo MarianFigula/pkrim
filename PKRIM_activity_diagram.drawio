@@ -1,0 +1,154 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.5 Chrome/126.0.6478.183 Electron/31.3.0 Safari/537.36" version="24.7.5">
+  <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
+    <mxGraphModel dx="1290" dy="629" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-1" value="Úvodná Stránka" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="430" y="460" width="130" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-10" value="LoginSite" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="440" y="190" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-11" value="" style="rhombus;whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="455" y="290" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-13" value="Sú prihlasovacie údaje správne ?" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-10" target="rMm0d_DiYILJXuTMu7hK-11">
+          <mxGeometry x="0.3333" width="160" relative="1" as="geometry">
+            <mxPoint x="330" y="330" as="sourcePoint" />
+            <mxPoint x="490" y="330" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-14" value="ÁNO" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-11" target="rMm0d_DiYILJXuTMu7hK-1">
+          <mxGeometry x="0.0654" y="21" width="160" relative="1" as="geometry">
+            <mxPoint x="455" y="390" as="sourcePoint" />
+            <mxPoint x="500" y="430" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-15" value="NIE" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-11" target="rMm0d_DiYILJXuTMu7hK-10">
+          <mxGeometry x="-0.1139" y="-20" width="160" relative="1" as="geometry">
+            <mxPoint x="600" y="370" as="sourcePoint" />
+            <mxPoint x="710" y="200" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="600" y="330" />
+              <mxPoint x="600" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-16" value="RegisterSite" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="140" y="190" width="110" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-17" value="" style="rhombus;whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="155" y="290" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-18" value="Sú údaje o registrácii korektné?" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-16" target="rMm0d_DiYILJXuTMu7hK-17">
+          <mxGeometry x="0.3333" width="160" relative="1" as="geometry">
+            <mxPoint x="30" y="330" as="sourcePoint" />
+            <mxPoint x="190" y="330" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-19" value="NIE" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-17" target="rMm0d_DiYILJXuTMu7hK-16">
+          <mxGeometry x="-0.0794" y="20" width="160" relative="1" as="geometry">
+            <mxPoint x="300" y="370" as="sourcePoint" />
+            <mxPoint x="410" y="200" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="50" y="330" />
+              <mxPoint x="50" y="210" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-20" value="ÁNO" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-17" target="rMm0d_DiYILJXuTMu7hK-1">
+          <mxGeometry x="0.0654" y="21" width="160" relative="1" as="geometry">
+            <mxPoint x="194.5" y="380" as="sourcePoint" />
+            <mxPoint x="195" y="470" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="195" y="495" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-34" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-23" target="rMm0d_DiYILJXuTMu7hK-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-37" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-23" target="rMm0d_DiYILJXuTMu7hK-36">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-23" value="" style="rhombus;whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="310" y="570" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-25" value="Používateľ chce robiť zmeny" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-1" target="rMm0d_DiYILJXuTMu7hK-23">
+          <mxGeometry x="0.3333" y="5" width="160" relative="1" as="geometry">
+            <mxPoint x="490" y="550" as="sourcePoint" />
+            <mxPoint x="490" y="640" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-45" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-26" target="rMm0d_DiYILJXuTMu7hK-44">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-26" value="" style="rhombus;whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="455" y="920" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-28" value="Je používateľ prihlásený ?" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-31" target="rMm0d_DiYILJXuTMu7hK-26">
+          <mxGeometry x="-0.0007" y="13" width="160" relative="1" as="geometry">
+            <mxPoint x="620" y="770" as="sourcePoint" />
+            <mxPoint x="530" y="785" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-30" value="NIE" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-26" target="rMm0d_DiYILJXuTMu7hK-10">
+          <mxGeometry x="-0.1139" y="-20" width="160" relative="1" as="geometry">
+            <mxPoint x="610" y="740" as="sourcePoint" />
+            <mxPoint x="490" y="130" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="680" y="880" />
+              <mxPoint x="670" y="130" />
+              <mxPoint x="495" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-31" value="Pridanie obrázkov" style="whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="520" y="700" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-33" value="Pridávanie recenzii" style="whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="100" y="690" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-36" value="Úprava účtu&lt;br&gt;(account page)" style="whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="290" y="690" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-39" value="Je používateľ prihlásený ?" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-36" target="rMm0d_DiYILJXuTMu7hK-26">
+          <mxGeometry x="-0.1185" y="3" width="160" relative="1" as="geometry">
+            <mxPoint x="365" y="790" as="sourcePoint" />
+            <mxPoint x="290" y="934" as="targetPoint" />
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-40" value="Je používateľ prihlásený ?" style="html=1;verticalAlign=bottom;labelBackgroundColor=none;endArrow=open;endFill=0;rounded=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-33" target="rMm0d_DiYILJXuTMu7hK-26">
+          <mxGeometry x="0.0099" y="-7" width="160" relative="1" as="geometry">
+            <mxPoint x="205" y="760" as="sourcePoint" />
+            <mxPoint x="130" y="904" as="targetPoint" />
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="240" y="840" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-41" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="rMm0d_DiYILJXuTMu7hK-23" target="rMm0d_DiYILJXuTMu7hK-31">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="640" y="620" as="sourcePoint" />
+            <mxPoint x="490" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="rMm0d_DiYILJXuTMu7hK-44" value="Redirect na príslušnú&lt;div&gt;stránku&lt;/div&gt;" style="whiteSpace=wrap;html=1;rounded=1;glass=0;strokeWidth=1;shadow=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="435" y="1090" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,6 @@
+
+.edit-user-wrapper {
+    width: min(400px, 50vw);
+    margin-left: auto;
+    margin-right: auto;
+}

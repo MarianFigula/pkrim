@@ -1,0 +1,37 @@
+services:
+  react-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./src:/usr/src/app/src   # Mount your React source code for development
+    depends_on:
+     - php
+     - mysql
+     - phpmyadmin
+  php:
+    build: ./php
+    ports:
+      - "8000:80"
+    volumes:
+      - ./public/arts:/var/www/html/public/arts
+    depends_on:
+      - mysql
+
+  mysql:
+    build: ./mysql
+    environment:
+      MYSQL_DATABASE: pkrim-art-gallery
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_ARBITRARY=1
+
+volumes:
+  react-art-volume:

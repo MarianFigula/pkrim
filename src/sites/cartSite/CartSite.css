@@ -1,0 +1,116 @@
+.cart-payment-wrapper {
+    width: 70vw;
+    margin: 15vh auto 0 12vw;
+
+    .cart-payment-header {
+        h1 {
+            margin-bottom: 0;
+        }
+
+        p {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 0;
+            color: var(--grey);
+        }
+    }
+
+    .cart-items {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--light-grey);
+        border-radius: 5px;
+        padding: 15px 5% 15px 20px;
+        justify-content: space-between;
+        gap: 10px;
+
+        .bi-trash-fill {
+            color: var(--danger);
+            cursor: pointer;
+        }
+
+    }
+}
+.cart-art-info {
+    display: flex;
+    gap: 50px;
+
+    h2, p {
+        margin: 0;
+    }
+
+    p {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--grey);
+    }
+
+    .cart-image {
+        width: 150px;
+        height: 100px;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+        }
+    }
+
+}
+
+.cart-art-management {
+    display: flex;
+    align-items: center;
+    gap: 10vw;
+}
+
+.cart-modal-img {
+    img {
+        width: 80%;
+        object-fit: cover;
+        display: flex;
+        justify-self: center;
+    }
+}
+
+.order-summary {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white; /* Optional, if you want it to stand out */
+    box-shadow: 0 -3px 4px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 768px) {
+    .cart-payment-wrapper {
+        width: 80vw;
+        margin: 20vh auto;
+    }
+
+    .cart-items {
+        flex-direction: column;
+        gap: 0;
+    }
+
+    .cart-art-info {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .cart-art-management {
+        flex-direction: column-reverse;
+        gap: calc(10vh);
+    }
+
+
+}

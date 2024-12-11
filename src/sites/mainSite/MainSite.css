@@ -1,0 +1,238 @@
+.main-content {
+    margin-top: 15vh;
+}
+
+.main-header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 30px;
+
+    .label {
+        width: min(50%, 300px);
+        position: relative;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        font-size: 1rem;
+        color: var(--grey);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-header-wrapper {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .button-wrapper {
+        flex-wrap: wrap;
+    }
+}
+
+.button-wrapper {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+
+    button {
+        padding: 10px 15px;
+        font-size: 0.8rem;
+        background-color: var(--light-grey);
+        color: var(--dark);
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            background-color: var(--grey);
+            color: var(--background-color);
+        }
+
+        &.active {
+            background-color: var(--grey);
+            color: var(--white);
+        }
+    }
+}
+
+.art-review-wrapper {
+    display: flex;
+    gap: 5%;
+    margin: 0 10% 5rem 10%;
+    align-content: stretch;
+}
+
+.art-wrapper {
+    width: 90%;
+    border: 1px solid black;
+    border-radius: 15px;
+}
+
+.img-wrapper {
+    min-height: fit-content;
+
+    img {
+        cursor: pointer;
+        width: 100%;
+        border-radius: 15px;
+    }
+
+}
+
+.img-info {
+    h3 {
+        text-align: left;
+    }
+
+    p {
+        font-size: 1rem;
+    }
+}
+
+.art-description {
+    padding: 0 10%;
+}
+
+.price {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--blue);
+}
+
+.img-wrapper, .review-wrapper {
+    border-radius: 15px;
+}
+
+
+/* REVIEW */
+
+.review-wrapper {
+    display: flex;
+    align-content: center;
+    align-self: center;
+    flex-direction: column;
+    background-color: var(--light-grey);
+    width: 60%;
+    max-height: 70vh;
+    padding: 15px;
+    scroll-behavior: smooth;
+    overflow: auto;
+}
+
+.space-between-for-two-components {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    flex-wrap: wrap;
+
+    .bi-plus-circle-fill {
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: var(--green);
+        transition: color 0.3s ease-out;
+        &:hover {
+            color: var(--dark-green);
+        }
+    }
+}
+
+.review {
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 14px;
+    background-color: var(--grey);
+    color: white;
+}
+
+.reviewer {
+    font-size: 0.75rem;
+    position: relative;
+
+    img {
+        max-width: 40px;
+        border-radius: 50%;
+    }
+
+    .reviewer-name {
+        position: absolute;
+        top: -15px;
+        left: 50px;
+        font-weight: 600;
+    }
+
+    .review-date {
+        position: absolute;
+        top: 10px;
+        left: 50px;
+    }
+}
+
+.review-text {
+    font-size: 12px;
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+}
+
+.create-art {
+    position: fixed;
+    bottom: 100px;
+    right: 10%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 36px;
+
+    i {
+        font-size: 1.3rem;
+        transition: color 0.3s ease;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .art-review-wrapper {
+        flex-direction: column;
+        gap: 50px;
+    }
+    .art-wrapper {
+        width: 100%;
+    }
+    .review-wrapper {
+        overflow-x: auto;
+        gap: 20px;
+        padding: 10px;
+        scroll-behavior: smooth;
+        width: 70%;
+        max-height: 50vh;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .main-content{
+        margin-top: 20vh;
+    }
+}
+
+
+
+.bi-cart{
+    position: relative;
+    .cart-count {
+        background-color: var(--danger);
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 50%;
+        padding: 2px 6px;
+        position: absolute;
+        top: -5px;
+        right: -10px;
+        font-style: normal;
+    }
+}
