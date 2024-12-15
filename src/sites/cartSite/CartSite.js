@@ -17,6 +17,9 @@ export default function CartSite() {
 
     const navigate = useNavigate()
 
+    const serverUrl = process.env.REACT_APP_SERVER_URL
+    const phpBaseUrl = `${serverUrl}/public`;
+
     useEffect(() => {
         const total = cartArtDetails.reduce((sum, art) => {
             return parseInt(sum) + (parseInt(art.price) || 0); // Add price for each art
@@ -41,7 +44,7 @@ export default function CartSite() {
                     onClose={() => setIsCartModalOpen(false)}
                 >
                     <div className="cart-modal-img">
-                        <ArtImage imgUrl={selectedArt.img_url} />
+                        <ArtImage imgUrl={`${phpBaseUrl}${selectedArt.img_url}`} />
                     </div>
                     <div className="space-between-for-two-components">
                         <p>by {selectedArt.author_name}</p>

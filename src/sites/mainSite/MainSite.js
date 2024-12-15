@@ -53,10 +53,12 @@ export function MainSite() {
             if (result.success) {
                 const artDataMap = [];
 
+                const phpBaseUrl = `${serverUrl}/public`; // PHP container's public URL
+
                 // Iterate through the data to group reviews by art
                 result.data.forEach((item) => {
                     const artId = item.art_id;
-
+                    const imageUrl = `${phpBaseUrl}${item.img_url}`;
                     // If this art already exists in the map, add the review to its reviews array
                     if (artDataMap[artId]) {
                         artDataMap[artId].reviews.push({
@@ -70,7 +72,7 @@ export function MainSite() {
                         artDataMap[artId] = {
                             art_id: artId,
                             username: item.art_creator_username,
-                            img_url: item.img_url,
+                            img_url: imageUrl,
                             title: item.title,
                             description: item.description,
                             price: parseFloat(item.price), // Convert price to number
