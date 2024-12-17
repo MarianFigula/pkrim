@@ -66,7 +66,7 @@ export default function CartSite() {
                             <CartItem
                                 key={index}
                                 artTitle={art.title}
-                                imgUrl={art.img_url}
+                                imgUrl={`${phpBaseUrl}${art.img_url}`}
                                 authorName={art.author_name}
                                 price={art.price}
                                 onClickDisplayImage={() => showArtModal(art)}
