@@ -18,6 +18,11 @@ WORKDIR /var/www/html/
 # Copy project files into the container
 COPY . /var/www/html/
 
+# Set permissions for public/arts directory
+RUN mkdir -p /var/www/html/public/arts && \
+    chmod -R 777 /var/www/html/public/arts && \
+    chown -R www-data:www-data /var/www/html/public/arts
+    
 # Install dependencies with Composer
 RUN composer install
 

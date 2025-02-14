@@ -5,7 +5,7 @@
 
   "options": {
     "allowedHosts": ["localhost", ".localhost"],
-    "proxy": "http://127.0.0.1:8000"
+    "proxy": "http://127.0.0.1:9000"
   },
   "dependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.15",
