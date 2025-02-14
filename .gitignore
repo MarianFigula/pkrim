@@ -12,6 +12,7 @@
 /build
 .env
 /php/.env
+/php/vendor
 
 # misc
 .DS_Store
