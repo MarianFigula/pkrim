@@ -6,7 +6,11 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./src:/usr/src/app/src   # Mount your React source code for development
+      - ./src:/usr/src/app/src  # Mount the React source code for live updates
+    environment:
+      - WDS_SOCKET_HOST=127.0.0.1
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     depends_on:
      - php
      - mysql
