@@ -17,6 +17,7 @@ services:
       - "8000:80"
     volumes:
       - ./public/arts:/var/www/html/public/arts
+      - ./php:/var/www/html  # Mount your PHP source code for development
     depends_on:
       - mysql
 
