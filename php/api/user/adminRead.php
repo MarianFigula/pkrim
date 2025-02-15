@@ -22,12 +22,12 @@ if ($method !== "GET"){
 }
 
 try {
-    if ($decoded->role !== "S"){
-        echo json_encode([
-            "success" => false,
-            "message" => "Not admin"]);
-        exit();
-    }
+//    if ($decoded->role !== "S"){
+//        echo json_encode([
+//            "success" => false,
+//            "message" => "Not admin"]);
+//        exit();
+//    }
 
     $stmt = $user->getAllUsers();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
