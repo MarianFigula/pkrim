@@ -40,24 +40,15 @@ class User {
      * @throws InvalidArgumentException if the email format is invalid
      */
     public function setEmail($email) {
-        $email = trim($email);
-        if (empty($email) || strlen($email) > 256 || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Invalid Email: must be a valid email format, up to 256 characters.");
-        }
-        $this->email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+        $this->email = $email;
     }
-    
     /**
      * Sets the username
      * @param string $username Alphanumeric username (up to 36 characters)
      * @throws InvalidArgumentException if the username format is invalid
      */
     public function setUsername($username) {
-        $username = trim($username);
-        if (empty($username) || strlen($username) > 36 || !preg_match('/^\w+$/', $username)) {
-            throw new InvalidArgumentException("Invalid Username: must be alphanumeric, up to 36 characters.");
-        }
-        $this->username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+        $this->username = $username;
     }
     
     /**
@@ -70,21 +61,18 @@ class User {
         if (empty($password) || strlen($password) < 8) {
             throw new InvalidArgumentException("Invalid Password: must be at least 8 characters.");
         }
-        // Additional complexity checks?
-        $this->password = password_hash($password, PASSWORD_BCRYPT); // Hash password directly
+
+        // Hash with already cracked hashing function
+        $this->password = password_hash($password, CRYPT_MD5); // Hash password directly
     }
   
 
     public function setSecurityQuestion($security_question) {
-        $security_question = trim($security_question);
-        if (empty($security_question) || strlen($security_question) > 512) {
-            throw new InvalidArgumentException("Invalid Security Question: must be up to 512 characters.");
-        }
-        $this->security_question = htmlspecialchars($security_question, ENT_QUOTES, 'UTF-8');
+        $this->security_question = $security_question;
     }
     
     private function hashSecurityAnswer($answer) {
-        return password_hash($answer, PASSWORD_BCRYPT);
+        return password_hash($answer, CRYPT_MD5);
     }
     
     public function setSecurityAnswer($security_answer) {
@@ -117,6 +105,29 @@ class User {
     public function verifyPassword($password, $hashedPassword) {
         return password_verify($password, $hashedPassword);
     }
+//    public function verifyPassword($password) {
+//        try {
+//            // Vulnerable query: directly concatenate user input
+//            $query = "SELECT email, password FROM users WHERE password = '" . $password . "'";
+//
+//            // Execute the query
+//            $stmt = $this->conn->query($query);
+//
+//            // Fetch the result
+//            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+//
+//            if ($user) {
+//                // Password matches (or SQL injection succeeded)
+//                return $user;
+//            } else {
+//                // Password does not match
+//                return false;
+//            }
+//        } catch (Exception $e) {
+//            error_log("Error verifying password: " . $e->getMessage());
+//            throw $e;
+//        }
+//    }
 
     public function getRole(){return $this->role;}
     public function getTableName() {return $this->table_name;}
@@ -125,7 +136,6 @@ class User {
     public function getUsername(){return $this->username;}
     public function getEmail() {return $this->email;}
 
-    // TODO: should this be present?
     public function getPassword() {return $this->password;}
     public function getSecurityQuestion() {return $this->security_question;}
     public function getSecurityAnswer() {return $this->security_answer;}
@@ -229,13 +239,12 @@ class User {
      * IDEA: password has to be retrieved for login.php - better way possible?
      */
     public function getUserByEmail() {
-        $query = "SELECT id, username, password, email, security_question, security_answer, role FROM " . $this->table_name . " WHERE email = :email";
-        $stmt = $this->conn->prepare($query);
-    
-        $params = ['email' => $this->email];
-        $this->bindParams($stmt, $params);
-    
-        $stmt->execute();
+        $query = "SELECT id, username, password, email, security_question, security_answer, role 
+              FROM " . $this->table_name . " 
+              WHERE email = '" . $this->email . "'";
+
+        $stmt = $this->conn->query($query);
+
         return $stmt;
     }
     
