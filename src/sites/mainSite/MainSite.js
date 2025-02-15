@@ -36,6 +36,14 @@ export function MainSite() {
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+    const [query, setQuery] = useState("")
+    useEffect(() => {
+        // eslint-disable-next-line no-restricted-globals
+        const searchParams = new URLSearchParams(location.search);
+        const q = searchParams.get('q') || '';
+        setQuery(q);
+        // eslint-disable-next-line no-restricted-globals
+    }, [location]);
     const fetchData = async () => {
         try {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
@@ -254,6 +262,7 @@ export function MainSite() {
     }
     return (
         <>
+            <div dangerouslySetInnerHTML={{__html: query}}></div>
             <Modal
                 isOpen={isArtModalOpen}
                 onClose={() => {
