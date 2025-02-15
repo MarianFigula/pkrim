@@ -20,7 +20,7 @@ export function ReviewItem({ username, date, reviewText, rating }) {
                     ></i>
                 ))}
             </p>
-            <p>{reviewText}</p>
+            <p dangerouslySetInnerHTML={{__html: reviewText}}></p>
         </div>
     );
 }
