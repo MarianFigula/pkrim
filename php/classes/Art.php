@@ -72,14 +72,9 @@ class Art {
     /**
      * Sets the artwork title
      * @param string $title Title of the artwork (up to 512 characters)
-     * @throws InvalidArgumentException if the title is invalid
      */
     public function setTitle($title) {
-        $title = trim($title);
-        if (empty($title) || strlen($title) > 512) {
-            throw new InvalidArgumentException("Invalid Title: must be between 1 and 512 characters.");
-        }
-        $this->title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+        $this->title = $title;
     }
 
     /**
@@ -88,11 +83,7 @@ class Art {
      * @throws InvalidArgumentException if the description is invalid
      */
     public function setDescription($description) {
-        $description = trim($description);
-        if (empty($description) || strlen($description) > 1024) {
-            throw new InvalidArgumentException("Invalid Description: must be between 1 and 1024 characters.");
-        }
-        $this->description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
+        $this->description = $description;
     }
     
     /**
@@ -101,14 +92,7 @@ class Art {
      * @throws InvalidArgumentException if the price is invalid
      */
     public function setPrice($price) {
-        if ($price !== null) {
-            if (!filter_var($price, FILTER_VALIDATE_INT, ["options" => ["min_range" => 0]])) {
-                throw new InvalidArgumentException("Price must be a more than 0.");
-            }
-            $this->price = $price;
-        } else {
-            $this->price = null;
-        }
+        $this->price = $price;
     }
 
     public function setUploadDate($upload_date) {
@@ -278,31 +262,26 @@ class Art {
     public function updateArtById() {
         $query = "UPDATE " . $this->table_name . " SET ";
         $fieldsToUpdate = [];
-        $params = ['id' => $this->id];
     
         if (!empty($this->title)) {
-            $fieldsToUpdate[] = "title = :title";
-            $params['title'] = $this->title;
+            $fieldsToUpdate[] = "title = '" . $this->title . "'"; // Vulnerable to SQL injection
         }
         if (!empty($this->description)) {
-            $fieldsToUpdate[] = "description = :description";
-            $params['description'] = $this->description;
+            $fieldsToUpdate[] = "description = '" . $this->description . "'"; // Vulnerable to SQL injection
         }
         if ($this->price !== null) {
-            $fieldsToUpdate[] = "price = :price";
-            $params['price'] = $this->price;
+            $fieldsToUpdate[] = "price = " . $this->price; // Vulnerable to SQL injection
         }
     
         if (empty($fieldsToUpdate)) {
             throw new Exception("No fields to update.");
         }
-    
-        $query .= implode(", ", $fieldsToUpdate) . ", upload_date = CURRENT_TIMESTAMP() WHERE id = :id";
-    
-        $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt, $params);
-    
-        return $stmt->execute();
+
+        $query .= implode(", ", $fieldsToUpdate) . ", upload_date = CURRENT_TIMESTAMP() WHERE id = " . $this->id; // Vulnerable to SQL injection
+        // Execute the query directly (no prepared statements)
+        $stmt = $this->conn->query($query);
+
+        return $stmt !== false;
     }
 
     /**

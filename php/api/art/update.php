@@ -65,9 +65,9 @@ if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" 
 }
 
 // Validate input fields
-$title = isset($data->title) ? trim($data->title) : null;
-$description = isset($data->description) ? trim($data->description) : null;
-$price = isset($data->price) ? floatval($data->price) : null;
+$title = $data->title ?? null;
+$description = $data->description ?? null;
+$price = $data->price ?? null;
 
 if (empty($title) && empty($description) && $price === null) {
     http_response_code(400); // Bad Request
