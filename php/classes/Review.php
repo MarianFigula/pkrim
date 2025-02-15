@@ -71,11 +71,7 @@ class Review {
      * @throws InvalidArgumentException if the review text is empty or too long
      */
     public function setReviewText($review_text) {
-        $review_text = trim($review_text);
-        if (empty($review_text) || strlen($review_text) > 1024) {
-            throw new InvalidArgumentException("Invalid Review Text: must be between 1 and 1024 characters.");
-        }
-        $this->review_text = htmlspecialchars($review_text, ENT_QUOTES, 'UTF-8');
+        $this->review_text = $review_text;
     }
 
     /**
@@ -121,23 +117,16 @@ class Review {
     public function createReview() {
         try {
             $this->review_creation_date = date('Y-m-d H:i:s');
-    
+
+            // Vulnerable to SQL injection
             $query = "INSERT INTO " . $this->table_name . " 
-                      (user_id, art_id, review_text, rating, review_creation_date)
-                      VALUES (:user_id, :art_id, :review_text, :rating, :review_creation_date)";
-    
-            $stmt = $this->conn->prepare($query);
-    
-            $params = [
-                'user_id' => $this->user_id,
-                'art_id' => $this->art_id,
-                'review_text' => $this->review_text,
-                'rating' => $this->rating,
-                'review_creation_date' => $this->review_creation_date,
-            ];
-            $this->bindParams($stmt, $params);
-    
-            return $stmt->execute();
+                  (user_id, art_id, review_text, rating, review_creation_date)
+                  VALUES ('" . $this->user_id . "', '" . $this->art_id . "', '" . $this->review_text . "', '" . $this->rating . "', '" . $this->review_creation_date . "')";
+
+            //var_dump($query); die();
+            $stmt = $this->conn->query($query);
+
+            return $stmt !== false;
         } catch (Exception $e) {
             error_log("Error creating review: " . $e->getMessage());
             throw $e;
@@ -245,28 +234,24 @@ class Review {
     public function updateReviewById() {
         $query = "UPDATE " . $this->table_name . " SET ";
         $fieldsToUpdate = [];
-        $params = ['id' => $this->id];
-    
+
         if (!empty($this->review_text)) {
-            $fieldsToUpdate[] = "review_text = :review_text";
-            $params['review_text'] = $this->review_text;
+            $fieldsToUpdate[] = "review_text = '" . $this->review_text . "'"; // Vulnerable to SQL injection
         }
         if ($this->rating !== null) {
-            $fieldsToUpdate[] = "rating = :rating";
-            $params['rating'] = $this->rating;
+            $fieldsToUpdate[] = "rating = " . $this->rating; // Vulnerable to SQL injection
         }
-    
+
         if (empty($fieldsToUpdate)) {
             throw new Exception("No fields to update.");
         }
-    
-        $query .= implode(", ", $fieldsToUpdate) . ", review_creation_date = CURRENT_TIMESTAMP WHERE id = :id";
-    
-        $stmt = $this->conn->prepare($query);
-        $this->bindParams($stmt, $params);
-    
-        return $stmt->execute();
-    }    
+
+        $query .= implode(", ", $fieldsToUpdate) . ", review_creation_date = CURRENT_TIMESTAMP WHERE id = " . $this->id; // Vulnerable to SQL injection
+
+        $stmt = $this->conn->query($query);
+
+        return $stmt !== false;
+    }
 
     /**
      * Deletes a review by ID

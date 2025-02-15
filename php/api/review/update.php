@@ -64,8 +64,8 @@ if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" 
 }
 
 // Check for at least one parameter to update
-$review_text = isset($data->review_text) ? $data->review_text : null;
-$rating = isset($data->rating) ? $data->rating : null;
+$review_text = $data->review_text ?? null;
+$rating = $data->rating ?? null;
 
 if (empty($review_text) && empty($rating)) {
     http_response_code(400);
