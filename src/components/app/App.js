@@ -30,11 +30,12 @@ function App() {
                 <Route path="/login" element={<LoginSite />} />
                 <Route path="/register" element={<RegisterSite />} />
                 <Route path="/forgot-password" element={<ForgotPasswordSite />} />
+                <Route path="/admin" element={<AdminSite />} />
 
                 {/* Private Routes (ProtectedRoute handles access control) */}
                 <Route path="/" element={<ProtectedRoute element={<MainSite />} />} />
                 <Route path="/user-profile" element={<ProtectedRoute element={<UserProfileSite />} />} />
-                <Route path="/admin" element={<ProtectedRoute element={<AdminSite />} />} />
+                {/*<Route path="/admin" element={<ProtectedRoute element={<AdminSite />} />} />*/}
                 <Route path="/admin-edit-user/:id" element={<ProtectedRoute element={<AdminEditUserSite />} />} />
                 <Route path="/my-arts" element={<ProtectedRoute element={<UserArtsSite />} />} />
                 <Route path="/review-history" element={<ProtectedRoute element={<UserReviewsSite />} />} />
