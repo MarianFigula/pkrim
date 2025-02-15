@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $data = json_decode(file_get_contents("php://input"));
 
 if (empty($data->art_id) || empty($data->review_text) || empty($data->rating)) {
-    http_response_code(200); // Bad Request
+    http_response_code(200);
     echo json_encode([
         "success" => false,
         "message" => "All fields are required."
@@ -110,7 +110,7 @@ try {
     ]);
 
     if ($stmt->rowCount() > 0) {
-        http_response_code(400); // Bad Request
+        http_response_code(200); // Bad Request
         echo json_encode([
             "success" => false,
             "message" => "You have already reviewed this artwork."
