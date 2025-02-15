@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `user`
 -- Insert sample data into `user` table
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `security_question`, `security_answer`, `role`)
 VALUES
-    ('1', 'admin', 'adminGallery@admin.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What is your pet''s name?', 'Max', 'S'), /*ZE47ZX0aCntutXiTc2NU+*/
+    ('1', 'admin', 'adminGallery@admin.com', 'e10adc3949ba59abbe56e057f20f883e', 'What is your pet''s name?', 'Max', 'S'), /*123456*/
     ('2', 'alice', 'alicebobova@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What was your first car?', 'Honda Civic', 'U'),/*0QkbFaa3WbyWFCLLFdAT+*/
     ('3', 'bob', 'bobalicovy@gmail.com', '$2y$10$sbHuKYKYDFNPMKJ4K42tQ.SxUQy.MpLXEQNXWYHkGmlXwL1rmCnfO', 'What was your first car?', 'Toyota Corolla', 'U'),/*Zgyv8tvUgZt7fGr4mQ6Q+*/
     ('4', 'charlie', 'charliebrown@gmail.com', '$2y$10$N8dF1j5pTQvmlSLrU/3k8Q0dcLd5z9fJKSzUd3QZ9nPb8TcH6nNOe', 'What is your grandmother''s name?', 'Anna', 'U'),/*5Hjs8Tyt2WbwZgZZVfAR+*/
