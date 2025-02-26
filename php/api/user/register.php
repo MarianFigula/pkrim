@@ -112,7 +112,7 @@ try {
         throw new Exception("Unable to create user.");
     }
 } catch (InvalidArgumentException $e) {
-    http_response_code(400);
+    http_response_code(200);
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
