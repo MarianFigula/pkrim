@@ -62,18 +62,14 @@ class User {
             throw new InvalidArgumentException("Invalid Password: must be at least 8 characters.");
         }
 
-        // Hash with already cracked hashing function
-        $this->password = password_hash($password, CRYPT_MD5); // Hash password directly
+        $this->password = $password;
     }
   
 
     public function setSecurityQuestion($security_question) {
         $this->security_question = $security_question;
     }
-    
-    private function hashSecurityAnswer($answer) {
-        return password_hash($answer, CRYPT_MD5);
-    }
+
     
     public function setSecurityAnswer($security_answer) {
         $security_answer = trim($security_answer);
@@ -81,7 +77,7 @@ class User {
             throw new InvalidArgumentException("Invalid Security Answer: must be up to 512 characters.");
         }
         // Store the hashed version instead of HTML encoded
-        $this->security_answer = $this->hashSecurityAnswer($security_answer);
+        $this->security_answer = $security_answer;
     }
     
     public function verifySecurityAnswer($answer, $hashedAnswer) {
@@ -96,38 +92,6 @@ class User {
         $this->role = $role;
     }
 
-    /**
-     * Verifies a plaintext password against a hashed password
-     * @param string $password Plaintext password
-     * @param string $hashedPassword Hashed password from the database
-     * @return bool True if the password matches, false otherwise
-     */
-    public function verifyPassword($password, $hashedPassword) {
-        return password_verify($password, $hashedPassword);
-    }
-//    public function verifyPassword($password) {
-//        try {
-//            // Vulnerable query: directly concatenate user input
-//            $query = "SELECT email, password FROM users WHERE password = '" . $password . "'";
-//
-//            // Execute the query
-//            $stmt = $this->conn->query($query);
-//
-//            // Fetch the result
-//            $user = $stmt->fetch(PDO::FETCH_ASSOC);
-//
-//            if ($user) {
-//                // Password matches (or SQL injection succeeded)
-//                return $user;
-//            } else {
-//                // Password does not match
-//                return false;
-//            }
-//        } catch (Exception $e) {
-//            error_log("Error verifying password: " . $e->getMessage());
-//            throw $e;
-//        }
-//    }
 
     public function getRole(){return $this->role;}
     public function getTableName() {return $this->table_name;}
@@ -242,6 +206,19 @@ class User {
         $query = "SELECT id, username, password, email, security_question, security_answer, role 
               FROM " . $this->table_name . " 
               WHERE email = '" . $this->email . "'";
+
+        $stmt = $this->conn->query($query);
+
+        return $stmt;
+    }
+
+    public function verifyUserLogin()
+    {
+        $query = "SELECT id, username, password, email, security_question, security_answer, role 
+          FROM " . $this->table_name . " 
+          WHERE email = '" . $this->email . "' 
+          AND password = '" . $this->password . "';";
+
 
         $stmt = $this->conn->query($query);
 

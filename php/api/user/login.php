@@ -66,26 +66,11 @@ if ($method !== "POST") {
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (empty($data->email) || empty($data->password)){
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "Email and password are required."
-    ]);
-    exit();
-}
 
-if (!filter_var($data->email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(400);
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid email format."
-    ]);
-    exit();
-}
 
 $user->setEmail($data->email);
-$stmt = $user->getUserByEmail();
+$user->setPassword($data->password);
+$stmt = $user->verifyUserLogin();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$row){
@@ -97,14 +82,6 @@ if (!$row){
     exit();
 }
 
-if (!$user->verifyPassword($data->password, $row['password'])) {
-    http_response_code(401);
-    echo json_encode([
-        "success" => false,
-        "message" => "Invalid password."
-    ]);
-    exit();
-}
 
 // JWT generation
 $payload = [
