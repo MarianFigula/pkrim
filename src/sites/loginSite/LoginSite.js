@@ -6,7 +6,7 @@ import { FormInput } from "../../components/formInput/FormInput";
 import { Form } from "../../components/form/Form";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
-import CryptoJS from "crypto-js";
+import {hashString} from "../../hashUtils";
 
 export function LoginSite() {
     const [email, setEmail] = useState("");
@@ -16,9 +16,6 @@ export function LoginSite() {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     const { login } = useAuth(); // Access the login function from AuthContext
 
-    const hashPassword = (password) => {
-        return CryptoJS.MD5(password).toString();
-    };
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -27,7 +24,7 @@ export function LoginSite() {
                 `${serverUrl}/api/user/login.php`,
                 {
                     email: email,
-                    password: hashPassword(password),
+                    password: hashString(password),
                 },
                 {
                     headers: {

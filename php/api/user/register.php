@@ -65,7 +65,7 @@ if ($method !== "POST") {
 }
 
 if ($data->password !== $data->repeated_password) {
-    http_response_code(400);
+    http_response_code(200);
     echo json_encode([
         "success" => false,
         "message" => "Passwords do not match."

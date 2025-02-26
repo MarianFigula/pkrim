@@ -6,6 +6,8 @@ import {FormInput} from "../../components/formInput/FormInput";
 import {Form} from "../../components/form/Form";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
+import {hashString} from "../../hashUtils";
+
 
 export function RegisterSite() {
     const [email, setEmail] = useState("")
@@ -38,12 +40,12 @@ export function RegisterSite() {
 
         try {
             const response = await axios.post(`${serverUrl}/api/user/register.php`, {
-                email,
-                username,
-                password,
-                repeated_password: repeatedPassword,
+                email: email,
+                username: username,
+                password: hashString(password),
+                repeated_password: hashString(repeatedPassword),
                 security_question: selectedSecurityQuestion,
-                security_answer: securityAnswer
+                security_answer: hashString(securityAnswer)
             }, {
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +56,7 @@ export function RegisterSite() {
             data.success ? login(data.token) : setError(data.message);
 
         } catch (error) {
-            setError("Some inputs are not filled");
+            setError("Error, try again");
         }
     }
 
