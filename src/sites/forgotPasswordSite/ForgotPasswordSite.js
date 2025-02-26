@@ -4,6 +4,8 @@ import {FormInput} from "../../components/formInput/FormInput";
 import {Link} from "react-router-dom";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
+import {hashString} from "../../hashUtils";
+
 
 export function ForgotPasswordSite() {
 
@@ -25,10 +27,10 @@ export function ForgotPasswordSite() {
 
         try {
             const response = await axios.post(`${serverUrl}/api/user/forgotPassword.php`, {
-                email,
-                password,
-                repeated_password: repeatedPassword,
-                security_answer: securityAnswer
+                email: email,
+                password: hashString(password),
+                repeated_password: hashString(repeatedPassword),
+                security_answer: hashString(securityAnswer)
             }, {
                 headers: {
                     'Content-Type': 'application/json',

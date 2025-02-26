@@ -63,7 +63,7 @@ if ($method !== "POST") {
 }
 
 if ($data->password !== $data->repeated_password) {
-    http_response_code(400); // Bad Request
+    http_response_code(200); // Bad Request
     echo json_encode([
         "success" => false,
         "message" => "Passwords do not match."
@@ -86,8 +86,7 @@ if (!$row) {
     exit();
 }
 
-// Verify security answer
-// SECURITY: maybe an unsafe comparison for timed-attacks?
+
 if (!$user->verifySecurityAnswer($data->security_answer, $row['security_answer'])) {
     http_response_code(401);
     echo json_encode([

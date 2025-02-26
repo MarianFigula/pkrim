@@ -80,8 +80,8 @@ class User {
         $this->security_answer = $security_answer;
     }
     
-    public function verifySecurityAnswer($answer, $hashedAnswer) {
-        return password_verify($answer, $hashedAnswer);
+    public function verifySecurityAnswer($answerFromRequest, $databaseAnswer) {
+        return $answerFromRequest === $databaseAnswer;
     }
 
     public function setRole($role) {
