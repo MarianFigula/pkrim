@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../components/form/form.css";
 import "../../spacing.css";
@@ -6,6 +6,7 @@ import { FormInput } from "../../components/formInput/FormInput";
 import { Form } from "../../components/form/Form";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
+import CryptoJS from "crypto-js";
 
 export function LoginSite() {
     const [email, setEmail] = useState("");
@@ -15,7 +16,9 @@ export function LoginSite() {
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     const { login } = useAuth(); // Access the login function from AuthContext
 
-
+    const hashPassword = (password) => {
+        return CryptoJS.MD5(password).toString();
+    };
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -23,8 +26,8 @@ export function LoginSite() {
             const response = await axios.post(
                 `${serverUrl}/api/user/login.php`,
                 {
-                    email,
-                    password,
+                    email: email,
+                    password: hashPassword(password),
                 },
                 {
                     headers: {
@@ -52,7 +55,7 @@ export function LoginSite() {
             >
                 <FormInput
                     label="Email"
-                    type="email"
+                    type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -62,7 +65,7 @@ export function LoginSite() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
+                    // required
                 />
             </Form>
 
