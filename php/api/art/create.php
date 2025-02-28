@@ -28,11 +28,11 @@
 
 // IDEA: Consider ideas for checking image duplication
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
-header("Access-Control-Expose-Headers: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+//header("Access-Control-Allow-Origin: *");
+//header("Access-Control-Allow-Headers: *");
+//header("Access-Control-Expose-Headers: *");
+//header("Access-Control-Allow-Methods: POST, GET");
+//header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';

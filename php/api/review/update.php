@@ -25,10 +25,10 @@
  * - The review ID is mandatory, and at least one of 'review_text' or 'rating' must be provided for an update.
  */
 
-header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: *");
-header("Access-Control-Expose-Headers: *");
-header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+//header("Access-Control-Allow-Origin: *");
+//header("Access-Control-Allow-Headers: *");
+//header("Access-Control-Expose-Headers: *");
+//header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
 header("Content-Type: application/json");
 
