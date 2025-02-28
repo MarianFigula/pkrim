@@ -16,18 +16,18 @@ CREATE TABLE IF NOT EXISTS `user`
 -- Insert sample data into `user` table
 INSERT INTO `user` (`id`, `username`, `email`, `password`, `security_question`, `security_answer`, `role`)
 VALUES
-    ('1', 'admin', 'admin.gallery@gallery.fei', 'a906449d5769fa7361d7ecc6aa3f6d28', 'What is your pet''s name?', 'Max', 'S'), /*123abc*/
-    ('2', 'Alice Bobova', 'alice.bobova@gallery.fei', '495c6dfd597415374445c3e104646271', 'What was your first car?', 'Honda Civic', 'U'),/*T9v!3m@QpZ7**/
-    ('3', 'Bob Alicovy', 'bob.alicovy@gallery.fei', 'd796b1242dc89cedffe596d14517f2ac', 'What was your first car?', 'Toyota Corolla', 'U'),/*iloveyou2*/
-    ('4', 'Charlie Brown', 'charlie.brown@gallery.fei', 'f6f8b17841190e3bf66f6e9f2b3d6cd1', 'What is your grandmother''s name?', 'Anna', 'U'),/*M8&y^R#oB1t@*/
-    ('5', 'David Smith', 'david.smith@gallery.fei', 'fb5ec35d77091432228fdabca7596abb', 'What was the name of your first school?', 'Spojena skola Tilgnerova', 'U'),/*qZ3*rW!mT7v@*/
-    ('6', 'Eva Jones', 'eva.jones@gallery.fei', '8b5d46821f396f8572e6e739868ab3a4', 'What was the name of your first school', 'Paneuropska sukromna zakladna skola', 'U'),/*pX2$Y#9NkV8^*/
-    ('7', 'Frank Williams', 'frank.williams@gallery.fei', '1a7fd50291c3d26152119d6deb9da7f9', 'What is your pet''s name?', 'Muro', 'U'),/*B1t@M8y^R#oP*/
-    ('8', 'Sheldon Cooper', 'sheldon.cooper@gallery.fei', '244634890f075124d2418d294d629f20', 'What is your pet''s name?', 'Simona', 'U'),/*T7v!pZ3*mQ@X*/
-    ('9', 'George Wilson', 'george.wilson@gallery.fei', 'c6203afb6795ba949f78484e714736f7', 'What is your pet''s name?', 'Bella', 'U'),/*N9K^X2$Y#R&8*/
-    ('10', 'Anna Kovacova', 'anna.kovacova@gallery.fei', '4b5987b45136a4b723c9f9cd2841a77b', 'What was your first car?', 'Skoda Felicia', 'U'),/*qW!T7mZ3@pX**/
-    ('11', 'Betty Smith', 'betty.smith@gallery.fei', '7c9fd2c192db77dcac0e42ee3ab6576e', 'What is your grandmother''s name?', 'Sofia', 'U'),/*B1y^oM8R#t@P*/
-    ('12', 'Clara Miller', 'clara.miller@gallery.fei', '33580df0d0a32aed259814a9720d859f', 'What is your pet''s name?', 'Rudolf', 'U');/*Z3*mQ@pX2$Y^*/
+    ('1', 'admin', 'admin.gallery@gallery.fei', 'a906449d5769fa7361d7ecc6aa3f6d28', 'What is your pet''s name?', '6a061313d22e51e0f25b7cd4dc065233', 'S'), /*123abc*/
+    ('2', 'Alice Bobova', 'alice.bobova@gallery.fei', '495c6dfd597415374445c3e104646271', 'What was your first car?', '817a10a85e3d3f42fdb9ce5b434072b3', 'U'),/*T9v!3m@QpZ7**/
+    ('3', 'Bob Alicovy', 'bob.alicovy@gallery.fei', 'd796b1242dc89cedffe596d14517f2ac', 'What was your first car?', 'd86d32eb99df82da2b872b9f6e0d7253', 'U'),/*iloveyou2*/
+    ('4', 'Charlie Brown', 'charlie.brown@gallery.fei', 'f6f8b17841190e3bf66f6e9f2b3d6cd1', 'What is your grandmother''s name?', '97a9d330e236c8d067f01da1894a5438', 'U'),/*M8&y^R#oB1t@*/
+    ('5', 'David Smith', 'david.smith@gallery.fei', 'fb5ec35d77091432228fdabca7596abb', 'What was the name of your first school?', '7576ebf1970167fcadb72a26912fc4bc', 'U'),/*qZ3*rW!mT7v@*/
+    ('6', 'Eva Jones', 'eva.jones@gallery.fei', '8b5d46821f396f8572e6e739868ab3a4', 'What was the name of your first school', '5da788a0bc4f79a3e1b4ebb5dca52678', 'U'),/*pX2$Y#9NkV8^*/
+    ('7', 'Frank Williams', 'frank.williams@gallery.fei', '1a7fd50291c3d26152119d6deb9da7f9', 'What is your pet''s name?', '14fb790c162be0367d27921365dab069', 'U'),/*B1t@M8y^R#oP*/
+    ('8', 'Sheldon Cooper', 'sheldon.cooper@gallery.fei', '244634890f075124d2418d294d629f20', 'What is your favourite number?', '57b9cdfbafb42a79ef2c2afa8875bb9f', 'U'),/*T7v!pZ3*mQ@X*/
+    ('9', 'George Wilson', 'george.wilson@gallery.fei', 'c6203afb6795ba949f78484e714736f7', 'What is your pet''s name?', 'e130fc6de9c40799c78e29ed7b77880a', 'U'),/*N9K^X2$Y#R&8*/
+    ('10', 'Anna Kovacova', 'anna.kovacova@gallery.fei', '4b5987b45136a4b723c9f9cd2841a77b', 'What was your first car?', '432b2969d027397188609363dbf54b85', 'U'),/*qW!T7mZ3@pX**/
+    ('11', 'Betty Smith', 'betty.smith@gallery.fei', '7c9fd2c192db77dcac0e42ee3ab6576e', 'What is your grandmother''s name?', '654cd76590cebe0ba37e8d4cce8a96ee', 'U'),/*B1y^oM8R#t@P*/
+    ('12', 'Clara Miller', 'clara.miller@gallery.fei', '33580df0d0a32aed259814a9720d859f', 'What is your pet''s name?', '4a7939882a437a582bfe42754df7acd3', 'U');/*Z3*mQ@pX2$Y^*/
 
 
 -- Create the `art` table
