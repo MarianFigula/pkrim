@@ -66,14 +66,24 @@ if ($method !== "POST") {
 
 $data = json_decode(file_get_contents("php://input"));
 
+try {
+    $user->setEmail($data->email);
+
+    $user->setPassword($data->password);
+
+    $stmt = $user->verifyUserLogin();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
-$user->setEmail($data->email);
-$user->setPassword($data->password);
-$stmt = $user->verifyUserLogin();
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
-
-if (!$row){
+    if (!$row){
+        http_response_code(401);
+        echo json_encode([
+            "success" => false,
+            "message" => "Wrong email or password."
+        ]);
+        exit();
+    }
+}catch (InvalidArgumentException){
     http_response_code(401);
     echo json_encode([
         "success" => false,
@@ -81,6 +91,8 @@ if (!$row){
     ]);
     exit();
 }
+
+
 
 
 // JWT generation
