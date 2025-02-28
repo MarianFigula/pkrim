@@ -74,10 +74,10 @@ $stmt = $user->verifyUserLogin();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$row){
-    http_response_code(404);
+    http_response_code(401);
     echo json_encode([
         "success" => false,
-        "message" => "User not found."
+        "message" => "Wrong email or password."
     ]);
     exit();
 }
