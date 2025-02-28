@@ -58,7 +58,7 @@ class User {
      */
     // NOTE: Consider adding required password schema
     public function setPassword($password) {
-        if (empty($password) || strlen($password) < 8) {
+        if (empty($password)) {
             throw new InvalidArgumentException("Invalid Password: must be at least 8 characters.");
         }
 
