@@ -18,6 +18,7 @@ export function RegisterSite() {
         "-- Choose --",
         "What is your pet's name?",
         "What was your first car?",
+        "What is your favourite number?",
         "What is your grandmother's name?",
         "What was the name of your first school?"
     ]);
