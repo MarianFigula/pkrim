@@ -30,7 +30,7 @@ function App() {
                 <Route path="/login" element={<LoginSite />} />
                 <Route path="/register" element={<RegisterSite />} />
                 <Route path="/forgot-password" element={<ForgotPasswordSite />} />
-                <Route path="/admin" element={<AdminSite />} />
+                <Route path="/admin/dashboard" element={<AdminSite />} />
 
                 {/* Private Routes (ProtectedRoute handles access control) */}
                 <Route path="/" element={<ProtectedRoute element={<MainSite />} />} />
