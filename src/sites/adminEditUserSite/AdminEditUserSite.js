@@ -9,6 +9,7 @@ import { Modal } from "../../components/modal/Modal";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
+import differenceBy from 'lodash/differenceBy';
 
 // admin page
 // TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
@@ -33,6 +34,9 @@ export function AdminEditUserSite() {
     const [email, setEmail] = useState(initialEmail || "");
     const [isArtModalOpen, setIsArtModalOpen] = useState(false);
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+    const [selectedReviewRows, setSelectedReviewRows] = useState([])
+    const [selectedArtRows, setSelectedArtRows] = useState([])
+
 
     const {token} = useAuth()
 
@@ -48,6 +52,72 @@ export function AdminEditUserSite() {
         review_text: "",
         rating: "",
     });
+
+    const handleArtChange = React.useCallback(state => {
+        setSelectedArtRows(state.selectedRows);
+    }, []);
+
+
+    const handleClearArtRows = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete these arts?");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        const artIds = selectedArtRows.map(art => art.id); // Extract all art_id values
+        try {
+            const response= await axios.get(`${serverUrl}/api/art/delete.php`, {
+                params: {
+                    action: "delete",
+                    art_id: artIds,
+                },
+                paramsSerializer: (params) =>
+                    new URLSearchParams(params).toString(), // Ensures proper serialization
+            });
+
+            const result = response.data
+
+            result.success ? alert("Arts deleted successfully") : alert(`Error deleting art: ${result.message}`)
+            window.location.reload()
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
+
+    const handleReviewChange = React.useCallback(state => {
+        setSelectedReviewRows(state.selectedRows);
+    }, []);
+
+    const handleClearReviewRows = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete these reviews?");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        const reviewIds = selectedReviewRows.map(review => review.id);
+
+
+        try {
+            const response= await axios.get(`${serverUrl}/api/review/delete.php`, {
+                params: {
+                    action: "delete",
+                    review_id: reviewIds,
+                },
+                paramsSerializer: (params) =>
+                    new URLSearchParams(params).toString(), // Ensures proper serialization
+            });
+
+            const result = response.data
+
+            result.success ? alert("Reviews deleted successfully") : alert(`Error deleting art: ${result.message}`)
+            window.location.reload()
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    }
+
 
     const fetchArtData = async () => {
         try {
@@ -143,9 +213,6 @@ export function AdminEditUserSite() {
     const columnsArts = getArtColumns(editArtsHandler);
     const columnsReviews = getReviewColumns(editReviewsHandler);
 
-    const handleChange = ({ selectedRows }) => {
-        console.log("Selected Rows: ", selectedRows);
-    };
 
     const handleArtFilter = (event) => {
         const eventValue = event.target.value;
@@ -439,9 +506,11 @@ export function AdminEditUserSite() {
                 columns={columnsArts}
                 records={artRecords}
                 handleFilter={handleArtFilter}
-                handleChange={handleChange}
+                handleChange={handleArtChange}
                 refreshData={fetchArtData}
                 searchId="search-art-id"
+                deleteHandler={handleClearArtRows}
+                selectedRows={selectedArtRows}
             />
 
             <h1 className="text-center mb-1">Reviews</h1>
@@ -449,9 +518,11 @@ export function AdminEditUserSite() {
                 columns={columnsReviews}
                 records={reviewRecords}
                 handleFilter={handleReviewFilter}
-                handleChange={handleChange}
+                handleChange={handleReviewChange}
                 refreshData={fetchReviewData}
                 searchId="search-review-id"
+                deleteHandler={handleClearReviewRows}
+                selectedRows={selectedReviewRows}
             />
         </>
     );

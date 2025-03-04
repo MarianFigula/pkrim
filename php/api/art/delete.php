@@ -2,26 +2,18 @@
 /**
  * Description:
  * This endpoint allows deleting multiple artworks by their IDs.
- * The IDs must be provided in an array within the request body, and the request 
- * method must be DELETE.
- * 
+ * The IDs must be provided as query parameters (`art_id[]=1&art_id[]=2&art_id[]=3`),
+ * and the request method must be DELETE.
+ *
  * Method: DELETE
- * URL: /api/art/delete.php
- * 
- * Request Body:
- * {
- *   "ids": [1, 2, 3] // Array of artwork IDs to delete (must be valid positive integers)
- * }
- * 
+ * URL: /api/art/delete.php?action=delete&art_id[]=1&art_id[]=2&art_id[]=3
+ *
  * Response Codes:
  * - 200 OK: Artworks were successfully deleted.
  * - 400 Bad Request: No valid IDs provided.
  * - 500 Internal Server Error: Failed to delete artworks.
  * - 405 Method Not Allowed: Invalid request method (only DELETE is allowed).
  */
-
- // IMPORTANT - current endpoints don't utilize deleteArtById
- // IMPORTANT   at all, since they are already passing in arrays
 
 header("Content-Type: application/json");
 
@@ -34,7 +26,8 @@ $db = $database->getConnection();
 
 $art = new Art($db);
 
-if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+// Ensure the request method is DELETE
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     echo json_encode([
         "success" => false,
@@ -43,24 +36,43 @@ if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
     exit;
 }
 
-$data = json_decode(file_get_contents("php://input"));
-
-if (!isset($data->ids) || !is_array($data->ids) || empty($data->ids)) {
+// Ensure action=delete is in query parameters
+if ($_GET['action'] !== 'delete') {
     http_response_code(400);
     echo json_encode([
         "success" => false,
-        "message" => "No valid IDs provided."
+        "message" => "Missing or invalid 'action' parameter."
+    ]);
+    exit;
+}
+
+if (empty($_GET['art_id'])) {
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "No valid 'art_id' provided."
+    ]);
+    exit;
+}
+
+$art_ids = explode(',', $_GET['art_id']);
+
+if (empty($art_ids)) {
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid or missing art IDs."
     ]);
     exit;
 }
 
 try {
     // Attempt to delete the artworks by passing the array of IDs
-    if (!$art->deleteArtsByIds($data->ids)) {
+    if (!$art->deleteArtsByIds($art_ids)) {
         http_response_code(400);
         echo json_encode([
             "success" => false,
-            "message" => "No valid IDs provided or deletion failed."
+            "message" => "Deletion failed or no matching records found."
         ]);
         exit;
     }
@@ -71,11 +83,11 @@ try {
         "message" => "Artworks were successfully deleted."
     ]);
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "Failed to delete artworks: " . $e->getMessage()
     ]);
 }
-exit;
-?>
+
+

@@ -1,23 +1,21 @@
 <?php
 /**
  * Description:
- * This endpoint allows deleting multiple users by their IDs. 
- * The IDs must be provided in an array within the request body, and the request 
- * method must be DELETE.
- * 
+ * This endpoint allows deleting multiple users by their IDs.
+ * The IDs must be provided as query parameters.
+ *
  * Method: DELETE
- * URL: /api/user/delete.php
- * 
- * Request Body:
- * {
- *   "ids": [1, 2, 3] // Array of user IDs to delete (must be valid positive integers)
- * }
- * 
+ * URL: /api/user/delete.php?action=delete&ids=1,2,3
+ *
+ * Query Parameters:
+ * - action=delete (required)
+ * - ids=1,2,3 (comma-separated list of user IDs, required)
+ *
  * Response Codes:
  * - 200 OK: Users were successfully deleted.
- * - 400 Bad Request: No valid IDs provided.
- * - 500 Internal Server Error: Failed to delete users.
- * - 405 Method Not Allowed: Invalid request method (only DELETE is allowed).
+ * - 400 Bad Request: Missing or invalid IDs.
+ * - 500 Internal Server Error: Failed to delete reviews.
+ * - 405 Method Not Allowed: Invalid request method.
  */
 
 header("Content-Type: application/json");
@@ -31,23 +29,39 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
-if ($_SERVER['REQUEST_METHOD'] !== 'DELETE') {
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
-    echo json_encode(["success" => false, "message" => "Invalid request method"]);
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid request method. Only DELETE is allowed."
+    ]);
     exit;
 }
 
-$data = json_decode(file_get_contents("php://input"));
-
-if (!isset($data->ids) || !is_array($data->ids)) {
+// Validate "ids" query param
+if (empty($_GET['user_id'])) {
     http_response_code(400);
-    echo json_encode(["success" => false, "message" => "No valid IDs provided"]);
+    echo json_encode([
+        "success" => false,
+        "message" => "Missing or invalid user IDs."
+    ]);
+    exit;
+}
+
+$ids = explode(',', $_GET['user_id']);
+
+if (empty($ids)) {
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "No valid user IDs provided."
+    ]);
     exit;
 }
 
 try {
     // Pass the raw IDs array to the model and let it handle the filtering
-    if (!$user->deleteUsersByIds($data->ids)) {
+    if (!$user->deleteUsersByIds($ids)) {
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "No valid IDs provided or deletion failed"]);
         exit;
@@ -56,8 +70,8 @@ try {
     http_response_code(200);
     echo json_encode(["success" => true, "message" => "Users were successfully deleted"]);
 } catch (Exception $e) {
-    http_response_code(500);
+    http_response_code(400);
     echo json_encode(["success" => false, "message" => "Failed to delete users: " . $e->getMessage()]);
 }
 exit;
-?>
+

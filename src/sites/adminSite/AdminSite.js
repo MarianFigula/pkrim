@@ -11,6 +11,8 @@ export function AdminSite() {
     const [records, setRecords] = useState(data);
     const {token} = useAuth()
     const navigate = useNavigate();
+    const [selectedUserRows, setSelectedUserRows] = useState([])
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const editHandler = (row) => {
         navigate(`/admin-edit-user/${row.id}`, {
@@ -54,9 +56,36 @@ export function AdminSite() {
     const refreshData = () => {
         fetchData();
     };
-    const handleChange = ({ selectedRows }) => {
-        console.log("Selected Rows: ", selectedRows);
-    };
+
+    const handleChange = React.useCallback(state => {
+        setSelectedUserRows(state.selectedRows);
+    }, []);
+
+    const handleClearUserRows = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete these users?");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        const userIds = selectedUserRows.map(user => user.id);
+        try {
+            const response= await axios.get(`${serverUrl}/api/user/delete.php`, {
+                params: {
+                    action: "delete",
+                    user_id: userIds,
+                },
+                paramsSerializer: (params) =>
+                    new URLSearchParams(params).toString(), // Ensures proper serialization
+            });
+
+            const result = response.data
+            result.success ? alert("Users deleted successfully") : alert(`Error deleting users: ${result.message}`)
+            window.location.reload()
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    }
 
     const handleFilter = (event) => {
         const eventValue = event.target.value;
@@ -85,6 +114,8 @@ export function AdminSite() {
                 handleFilter={handleFilter}
                 handleChange={handleChange}
                 refreshData={refreshData}
+                deleteHandler={handleClearUserRows}
+                selectedRows={selectedUserRows}
             />
         </>
     );
