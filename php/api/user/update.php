@@ -1,6 +1,5 @@
 <?php
 /**
- * TODO: allows more attributes to be edited?
  * Description:
  * This endpoint allows partial updates to a user's information.
  * The user ID is required to identify the user, and at least one of 

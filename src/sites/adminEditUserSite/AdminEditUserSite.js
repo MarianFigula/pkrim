@@ -15,7 +15,6 @@ import {useAuth} from "../../components/auth/AuthContext";
 //  ale user s id funguje tak ho updatne, treba zo zmenit ci to nechame
 //  ako naschval bug ?
 
-// TODO: overit vstupy pri editoch (modaly)
 export function AdminEditUserSite() {
     const { id } = useParams();
     const location = useLocation();
@@ -394,14 +393,6 @@ export function AdminEditUserSite() {
                         }
                         required
                     />
-                    {
-                        //TODO osetrit min max
-                        // hodnoty aj na serveri
-                        // alebo to nechame ako feature bug
-                        // ze user moze v html prepisat min a max
-                        // a potom bude moct davat vyssi rating
-                        // alebo tam miesto input type number pridame hviezdicky
-                    }
                     <FormInput
                         label="Rating"
                         type="number"

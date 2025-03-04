@@ -79,7 +79,6 @@ export function UserArtsSite() {
         setUserArtRecords(newData);
     };
 
-    // TODO: code duplicate in AdminEditUserSite
     const handleEditArtSubmit = async () => {
         console.log(artEditData);
         try {

@@ -58,7 +58,6 @@ export function AdminSite() {
         console.log("Selected Rows: ", selectedRows);
     };
 
-    // todo: dat eventValue hned toLowerCase()
     const handleFilter = (event) => {
         const eventValue = event.target.value;
         const newData = data.filter((row) => {

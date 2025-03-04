@@ -67,8 +67,6 @@ try {
     $user->setRole($data['role'] ?? 'U');
 
     if ($user->createUser()) {
-        // todo - ziskat id noveho usera a vytvorit cart
-
         http_response_code(201); // Created
         echo json_encode(["success" => true, "message" => "User created successfully."]);
     } else {

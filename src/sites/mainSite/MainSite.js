@@ -214,9 +214,6 @@ export function MainSite() {
     };
 
     const openReviewModal = (artId) => {
-        // TODO: display error that show that user is not logged in and only logged in user can
-        //  upload review
-
         setSelectedArtId(artId); // set the art id when opening the modal
         setIsArtModalOpen(true); // open the modal
     };

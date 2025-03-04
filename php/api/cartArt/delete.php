@@ -102,9 +102,6 @@ try {
         throw new Exception("Failed to remove art from the cart.");
     }
 
-    // TODO volanie moze byt aj ine napr api/buy a tam sa zavola ta funkcia a na delete bude iba z kosika a mozno to dat do ls len
-    // aby sa nemuselo refreshovat - alebo na button click sa odstrani
-
 } catch (Exception $e) {
     http_response_code(500);
     echo json_encode([
