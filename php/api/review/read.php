@@ -54,7 +54,16 @@ if ($method !== "GET") {
     ]);
     exit();
 }
+
 try {
+    if (isset($_GET["admin_all"]) && $decoded->role != "S") {
+        http_response_code(403); // Forbidden
+        echo json_encode([
+            "success" => false,
+            "message" => "Admin privileges are required to view all reviews."
+        ]);
+        exit();
+    }
     if (isset($_GET["admin_all"]) && isset($_GET["user_id"]) && $decoded->role == "S"){
         $userId = $_GET["user_id"];
         $review->setUserId($userId);
@@ -98,8 +107,8 @@ try {
     }
 
     // Fetch reviews by art ID
-    if (isset($_GET['art_id'])) {
-        $art_id = intval($_GET['art_id']);
+    if (isset($_GET['review_id'])) {
+        $art_id = intval($_GET['review_id']);
         $art->setId($art_id);
         $stmt = $art->getArtById();
         $art_row = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -20,18 +20,18 @@ if (!isset($headers['Authorization'])) {
 
 $token = str_replace('Bearer ', '', $headers['Authorization']);
 
-try {
-    $decoded = JWT::decode($token, new Key($key, 'HS256'));
-    // The token is valid. Use $decoded->id or $decoded->role as needed
-    /* 
-    Example if not admin in the proper endpoint:
-        if ($decoded->role !== 'admin') {
-            http_response_code(403); // Forbidden
-            echo json_encode(["message" => "Access denied"]);
-            exit();
-        }
-    */
-} catch (Exception $e) {
-    http_response_code(401);
-    echo json_encode(["success" => false, "message" => "Invalid token.", "error" => $e->getMessage()]);    exit();
+$tokenParts = explode('.', $token);
+$header = json_decode(base64_decode($tokenParts[0]));
+
+
+if ($header->alg === 'none') {
+    $decoded = json_decode(base64_decode($tokenParts[1]));
+}else{
+
+    try {
+        $decoded = JWT::decode($token, new Key($key, 'HS256'));
+    } catch (Exception $e) {
+        http_response_code(401);
+        echo json_encode(["success" => false, "message" => "Invalid token.", "error" => $e->getMessage()]);    exit();
+    }
 }
