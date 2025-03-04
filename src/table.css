@@ -37,7 +37,6 @@
         }
     }
     .button-delete {
-        display: none;
         background-color: var(--danger);
         padding: 0 10px;
         color: white;
