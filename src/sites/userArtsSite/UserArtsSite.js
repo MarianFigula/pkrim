@@ -15,6 +15,7 @@ export function UserArtsSite() {
     const [error, setError] = useState("");
     const {token} = useAuth();
     const [isArtModalOpen, setIsArtModalOpen] = useState(false);
+    const [selectedArtRows, setSelectedArtRows] = useState([])
 
     const [artEditData, setArtEditData] = useState({
         id: null,
@@ -22,6 +23,37 @@ export function UserArtsSite() {
         description: "",
         price: 0,
     });
+
+    const handleArtChange = React.useCallback(state => {
+        setSelectedArtRows(state.selectedRows);
+    }, []);
+
+    const handleClearArtRows = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete these arts?");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        const artIds = selectedArtRows.map(art => art.id); // Extract all art_id values
+        try {
+            const response= await axios.get(`${serverUrl}/api/art/delete.php`, {
+                params: {
+                    action: "delete",
+                    art_id: artIds,
+                },
+                paramsSerializer: (params) =>
+                    new URLSearchParams(params).toString(), // Ensures proper serialization
+            });
+
+            const result = response.data
+
+            result.success ? alert("Arts deleted successfully") : alert(`Error deleting art: ${result.message}`)
+            window.location.reload()
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    };
 
     // NEW WAY
     const fetchArtData = async () => {
@@ -169,8 +201,11 @@ export function UserArtsSite() {
                 columns={columnsArts}
                 records={userArtRecords}
                 handleFilter={handleArtFilter}
+                handleChange={handleArtChange}
                 refreshData={fetchArtData}
                 searchId="search-art-id"
+                deleteHandler={handleClearArtRows}
+                selectedRows={selectedArtRows}
             />
         </>
     );

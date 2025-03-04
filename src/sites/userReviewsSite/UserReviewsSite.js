@@ -14,6 +14,39 @@ export function UserReviewsSite() {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [reviewData, setReviewData] = useState([]);
     const [reviewRecords, setReviewRecords] = useState(reviewData);
+    const [selectedReviewRows, setSelectedReviewRows] = useState([])
+
+    const handleReviewChange = React.useCallback(state => {
+        setSelectedReviewRows(state.selectedRows);
+    }, []);
+
+    const handleClearReviewRows = async () => {
+        const confirmDelete = window.confirm("Are you sure you want to delete these reviews?");
+
+        if (!confirmDelete) {
+            return;
+        }
+
+        const reviewIds = selectedReviewRows.map(review => review.id);
+
+        try {
+            const response= await axios.get(`${serverUrl}/api/review/delete.php`, {
+                params: {
+                    action: "delete",
+                    review_id: reviewIds,
+                },
+                paramsSerializer: (params) =>
+                    new URLSearchParams(params).toString(), // Ensures proper serialization
+            });
+
+            const result = response.data
+
+            result.success ? alert("Reviews deleted successfully") : alert(`Error deleting art: ${result.message}`)
+            window.location.reload()
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        }
+    }
 
     const { token } = useAuth();
 
@@ -159,8 +192,11 @@ export function UserReviewsSite() {
                 columns={columnsReviews}
                 records={reviewRecords}
                 handleFilter={handleReviewFilter}
+                handleChange={handleReviewChange}
                 refreshData={fetchReviewData}
                 searchId="search-review-id"
+                deleteHandler={handleClearReviewRows}
+                selectedRows={selectedReviewRows}
             />
         </>
     );
