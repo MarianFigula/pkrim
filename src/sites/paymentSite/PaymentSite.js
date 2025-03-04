@@ -15,7 +15,7 @@ export default function PaymentSite() {
     const location = useLocation();
     const { totalToPay } = location.state || {}; // Access the totalToPay from the state
     const navigate = useNavigate();
-    const { cartArtIds, clearCart } = useCart(); // Include clearCart
+    const { cartArtDetails, clearCart } = useCart(); // Include clearCart
     const {token} = useAuth()
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -57,6 +57,7 @@ export default function PaymentSite() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setError("")
         if (!validateFullName(name)) {
             setError(
                 "Please enter your full name without diacritics (e.g., Jon Doe)."
@@ -83,7 +84,7 @@ export default function PaymentSite() {
             const response = await axios.post(
                 `${serverUrl}/api/cartArt/buy.php`,
                 {
-                    art_ids: cartArtIds,
+                    arts: cartArtDetails,
                 },
                 {
                     headers: {
@@ -95,7 +96,6 @@ export default function PaymentSite() {
 
             const result = response.data
             if (result.success){
-                setError("");
                 console.log("Payment successful. Cart cleared.");
                 clearCart();
                 navigate("/payment-accepted");
@@ -109,7 +109,6 @@ export default function PaymentSite() {
             clearCart();
             navigate("/payment-denied");
         }
-        setError("");
         console.log("Payment details are valid. Proceeding to payment...");
     }
 

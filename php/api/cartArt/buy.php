@@ -56,16 +56,17 @@ if ($method !== "POST") {
     exit();
 }
 
-$data = json_decode(file_get_contents("php://input"));
+$data = json_decode(file_get_contents("php://input"), true);
 
-if (empty($data->art_ids) || !is_array($data->art_ids)) {
-    http_response_code(400); // Bad Request
-    echo json_encode(["success" => false, "message" => "Art IDs are required and must be an array."]);
+if (empty($data) || empty($data['arts'])) {
+    http_response_code(400);
+    echo json_encode(["success" => false, "message" => "Data are Required."]);
     exit();
 }
 
 $user_id = $decoded->id; // Extracted from JWT
-$art_ids = array_map('intval', $data->art_ids); // Sanitize art IDs
+
+$art_ids = array_column($data['arts'], 'art_id');
 
 try {
     $cart->setUserId($user_id);
