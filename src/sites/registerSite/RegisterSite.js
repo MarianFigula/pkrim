@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
 import "../../components/form/form.css"
 import "../../spacing.css"
@@ -27,10 +27,16 @@ export function RegisterSite() {
     const [securityAnswer, setSecurityAnswer] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
-    const { login } = useAuth(); // Access the login function from AuthContext
+    const { login, token } = useAuth(); // Access the login function from AuthContext
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
+    useEffect(() => {
+        if (token) {
+            navigate("/");
+        }
+    }, [token]);
+    
     async function handleSubmit(event) {
         event.preventDefault();
 

@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../components/form/form.css";
 import "../../spacing.css";
@@ -14,8 +14,15 @@ export function LoginSite() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-    const { login } = useAuth(); // Access the login function from AuthContext
+    const { login, token } = useAuth(); // Access the login function from AuthContext
 
+    useEffect(() => {
+        if (token) {
+            navigate("/");
+        }
+    }, [token]);
+    
+    
     async function handleSubmit(event) {
         event.preventDefault();
 
@@ -37,7 +44,7 @@ export function LoginSite() {
             const data = response.data;
             data.success ? login(data.token) : setError(data.message);
         } catch (error) {
-            setError("Wrong email or password.");
+            setError("Error, try again");
         }
     }
 
@@ -52,6 +59,7 @@ export function LoginSite() {
             >
                 <FormInput
                     label="Email"
+                    // TODO: change from type text to email
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
