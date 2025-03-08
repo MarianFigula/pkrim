@@ -232,12 +232,9 @@ class Art {
      * @return PDOStatement Result set containing the artwork data
      */
     public function getArtById() {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id = ". $this->id;
         $stmt = $this->conn->prepare($query);
-    
-        $params = ['id' => $this->id];
-        $this->bindParams($stmt, $params);
-    
+
         $stmt->execute();
         return $stmt;
     }
