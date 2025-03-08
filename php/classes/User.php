@@ -214,13 +214,15 @@ class User {
 
     public function verifyUserLogin()
     {
-        $query = "SELECT id, username, password, email, security_question, security_answer, role 
-          FROM " . $this->table_name . " 
-          WHERE email = '" . $this->email . "' 
-          AND password = '" . $this->password . "';";
+        try {
+            $query = "SELECT id, username, password, email, security_question, security_answer, role 
+            FROM " . $this->table_name . " WHERE email = '" . $this->email . "' AND password = '" . $this->password . "';";
 
 
-        $stmt = $this->conn->query($query);
+            $stmt = $this->conn->query($query);
+        }catch (Exception $e) {
+            throw $e;
+        }
 
         return $stmt;
     }
