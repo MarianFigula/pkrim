@@ -6,10 +6,9 @@ import { Form } from "../../components/form/Form";
 import { FormInput } from "../../components/formInput/FormInput";
 import "./AdminEditUserSite.css";
 import { Modal } from "../../components/modal/Modal";
-import { useLocation, useParams } from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
-import differenceBy from 'lodash/differenceBy';
 
 // admin page
 // TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
@@ -36,6 +35,7 @@ export function AdminEditUserSite() {
     const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
     const [selectedReviewRows, setSelectedReviewRows] = useState([])
     const [selectedArtRows, setSelectedArtRows] = useState([])
+    const navigate = useNavigate();
 
 
     const {token} = useAuth()
@@ -250,7 +250,7 @@ export function AdminEditUserSite() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Submitting user edit");
-
+        setError("")
         try {
             const response = await axios.put(
                 `${serverUrl}/api/user/update.php`,
@@ -285,11 +285,15 @@ export function AdminEditUserSite() {
     };
 
     const fetchUserData = async () => {
+        setError("");
         try {
             const response = await axios.get(
                 `${serverUrl}/api/user/read.php`,
                 {
-                    params: { "email": email },
+                    params: {
+                        "email": email,
+                        "admin_all": "Y"
+                    },
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${token}`,
@@ -298,7 +302,7 @@ export function AdminEditUserSite() {
             );
     
             const result = response.data;
-    
+            console.log(response.status)
             if (result.success) {
                 setUsername(result.data.username);
                 setDisplayUsername(result.data.username);
@@ -307,14 +311,16 @@ export function AdminEditUserSite() {
                 setError("Failed to fetch user data.");
             }
         } catch (error) {
-            setError("Error fetching user data.");
+            if (error.status === 401) {
+                navigate("/login")
+            }
             console.error("Fetch user data error:", error);
         }
     };
 
     const handleEditArtSubmit = async (e) => {
         e.preventDefault();
-
+        setError("");
         try {
             const response = await axios.put(
                 `${serverUrl}/api/art/update.php`,
@@ -351,6 +357,7 @@ export function AdminEditUserSite() {
 
     const handleEditReviewSubmit = async (e) => {
         e.preventDefault();
+        setError("");
 
         try {
             const response = await axios.put(
