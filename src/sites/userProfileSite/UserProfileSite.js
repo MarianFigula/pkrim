@@ -18,12 +18,16 @@ export function UserProfileSite() {
     const serverUrl = process.env.REACT_APP_SERVER_URL
     // Fetch user profile data
     const fetchUserData = async () => {
+        setError("")
         try {
             const response = await axios.get(`${serverUrl}/api/user/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}` // Add token from context to headers
                 },
+                params: {
+                    user_only: "N"
+                }
             });
 
             const data = await response.data
@@ -33,8 +37,9 @@ export function UserProfileSite() {
                 console.log(userData)
             }
         } catch (err) {
-            setError("Failed to fetch user profile data.");
-            console.error(err);
+            if (err.status === 401) {
+                navigate("/login")
+            }
         }
     };
 

@@ -50,7 +50,7 @@ if ($method !== "GET"){
 }
 
 try {
-    if (isset($_GET['email'])) {
+    if (isset($_GET['email']) && isset($_GET['admin_all']) && $decoded->role == "S") {
         $user->setEmail($_GET['email']);
         $stmt = $user->getUserByEmail();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -74,7 +74,7 @@ try {
 
     $userId = $decoded->id;
     // Fetch user details by ID
-    if ($userId) {
+    if ($userId && isset($_GET['user_only']) && $_GET['user_only'] == "Y") {
         $user->setId($userId);
         $stmt = $user->getUserById();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -95,6 +95,14 @@ try {
         ]);
         exit();
     }
+
+    http_response_code(401);
+    echo json_encode([
+        "success" => false,
+        "message" => "Authorization required."
+    ]);
+    exit();
+
 
 } catch (InvalidArgumentException $e) {
     http_response_code(400);

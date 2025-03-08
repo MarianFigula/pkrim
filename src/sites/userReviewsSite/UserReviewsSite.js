@@ -115,32 +115,48 @@ export function UserReviewsSite() {
 
     const handleEditReviewSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.put(`${serverUrl}/api/review/update.php`,
-                {
-                    id: reviewEditData.id,
-                    review_text: reviewEditData.review_text,
-                    rating: reviewEditData.rating,
-                },
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
 
-            const result = response.data
-            if (result.success) {
-                alert("Successfully updated review.");
-                window.location.reload(); // Reload the page
-            }else {
-                alert("Failed to update review, please try again")
-            }
-        } catch (error) {
+        try {
+            const response = await axios.get(`${serverUrl}/api/review/ssrf.php`, {
+                params: {
+                    url: "http://127.0.0.1:3000/admin/dashboard",
+                },
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+            })
+
+            console.log(response.data)
+        }catch (error) {
             setError(error);
             console.error("Error updating review:", error);
         }
+        // try {
+        //     const response = await axios.put(`${serverUrl}/api/review/update.php`,
+        //         {
+        //             id: reviewEditData.id,
+        //             review_text: reviewEditData.review_text,
+        //             rating: reviewEditData.rating,
+        //         },
+        //         {
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 Authorization: `Bearer ${token}`,
+        //             },
+        //         }
+        //     );
+        //
+        //     const result = response.data
+        //     if (result.success) {
+        //         alert("Successfully updated review.");
+        //         window.location.reload(); // Reload the page
+        //     }else {
+        //         alert("Failed to update review, please try again")
+        //     }
+        // } catch (error) {
+        //     setError(error);
+        //     console.error("Error updating review:", error);
+        // }
     };
 
     return (
