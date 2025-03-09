@@ -98,7 +98,7 @@ export default function PaymentSite() {
             if (result.success){
                 console.log("Payment successful. Cart cleared.");
                 clearCart();
-                navigate("/payment-accepted");
+                navigate("/payment-accepted", { state: {cartArtDetails, totalToPay } });
             }else {
                 alert("Error processing payment:");
                 clearCart();

@@ -7,6 +7,8 @@ export function PaymentDenied(){
         icon="bi-x-circle color-danger"
         textDescription="Sorry, we couldn’t process your payment."
         buttonText="Back to shopping"
+        paymentStatus="denied"
+        handleDownloadInvoice={() => {}}
         />
     )
 }
