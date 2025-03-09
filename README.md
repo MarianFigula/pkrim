@@ -25,5 +25,7 @@ docker-compose build
 docker-compose up -d
 ```
 
+
+
 4. Running the application 
 * Open your browser and navigate to http://localhost:3000/. The application should now be live and accessible at this address.
