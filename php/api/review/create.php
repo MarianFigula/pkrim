@@ -65,7 +65,7 @@ if (empty($data->art_id) || empty($data->review_text) || empty($data->rating)) {
 
 // Sanitize inputs
 $art_id = intval($data->art_id);
-$review_text = trim($data->review_text);
+$review_text = $data->review_text;
 $rating = intval($data->rating);
 
 // Validate user existence
@@ -91,15 +91,7 @@ try {
 
     $art_creator_user_id = $artRow["user_id"];
 
-    // Prevent self-reviews
-    if ($reviewer_user_id === $art_creator_user_id) {
-        http_response_code(200);
-        echo json_encode([
-            "success" => false,
-            "message" => "You cannot review your own artwork."
-        ]);
-        exit();
-    }
+
 
     // Prevent duplicate reviews (user_id + art_id combination)
     $existingReviewQuery = "SELECT id FROM review WHERE user_id = :user_id AND art_id = :art_id LIMIT 1";
