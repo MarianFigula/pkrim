@@ -26,7 +26,7 @@ export function UserProfileSite() {
                     Authorization: `Bearer ${token}` // Add token from context to headers
                 },
                 params: {
-                    user_only: "N"
+                    user_only: "Y"
                 }
             });
 
