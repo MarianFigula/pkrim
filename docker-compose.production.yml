@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  react-app:
+    image: marian255/art-gallery-react:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_SERVER_URL=http://localhost:9000
+    depends_on:
+      - php
+      - mysql
+
+  php:
+    image: marian255/art-gallery-php:latest
+    ports:
+      - "9000:80"
+    environment:
+      - JWT_SECRET="secret"
+    volumes:
+      - art_uploads:/var/www/html/public/arts
+    depends_on:
+      - mysql
+
+  mysql:
+    image: marian255/art-gallery-mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: pkrim-art-gallery
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - PMA_HOST=mysql
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+
+volumes:
+  mysql_data:
+  art_uploads:
+
