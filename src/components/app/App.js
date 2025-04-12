@@ -23,19 +23,16 @@ import {AuthProvider} from "../auth/AuthContext";
 
 function App() {
     return (
-        <AuthProvider>
+        <>
             <Header />
             <Routes>
-                {/* Public Routes */}
                 <Route path="/login" element={<LoginSite />} />
                 <Route path="/register" element={<RegisterSite />} />
                 <Route path="/forgot-password" element={<ForgotPasswordSite />} />
                 <Route path="/admin/dashboard" element={<AdminSite />} />
 
-                {/* Private Routes (ProtectedRoute handles access control) */}
                 <Route path="/" element={<ProtectedRoute element={<MainSite />} />} />
                 <Route path="/user-profile" element={<ProtectedRoute element={<UserProfileSite />} />} />
-                {/*<Route path="/admin/dashboard" element={<ProtectedRoute element={<AdminSite />} />} />*/}
                 <Route path="/admin-edit-user/:id" element={<ProtectedRoute element={<AdminEditUserSite />} />} />
                 <Route path="/my-arts" element={<ProtectedRoute element={<UserArtsSite />} />} />
                 <Route path="/review-history" element={<ProtectedRoute element={<UserReviewsSite />} />} />
@@ -46,7 +43,7 @@ function App() {
                 <Route path="/payment-denied" element={<ProtectedRoute element={<PaymentDenied />} />} />
             </Routes>
             <Footer />
-        </AuthProvider>
+        </>
     );
 }
 
