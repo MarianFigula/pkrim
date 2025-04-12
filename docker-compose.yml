@@ -22,6 +22,7 @@ services:
     volumes:
       - ./public/arts:/var/www/html/public/arts
       - ./php:/var/www/html  # Mount your PHP source code for development
+      - php-vendor:/var/www/html/vendor  # Named volume for vendor directory
     depends_on:
       - mysql
 
@@ -40,3 +41,4 @@ services:
 
 volumes:
   react-art-volume:
+  php-vendor:
