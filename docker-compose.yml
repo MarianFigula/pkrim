@@ -6,7 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./src:/usr/src/app/src  # Mount the React source code for live updates
+      - ./src:/usr/src/app/src
     environment:
       - WDS_SOCKET_HOST=127.0.0.1
       - CHOKIDAR_USEPOLLING=true
@@ -21,8 +21,8 @@ services:
       - "9000:80"
     volumes:
       - ./public/arts:/var/www/html/public/arts
-      - ./php:/var/www/html  # Mount your PHP source code for development
-      - php-vendor:/var/www/html/vendor  # Named volume for vendor directory
+      - ./php:/var/www/html
+      - php-vendor:/var/www/html/vendor
     depends_on:
       - mysql
 
