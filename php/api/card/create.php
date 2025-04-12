@@ -58,26 +58,23 @@ try {
     if (!$creditCard->doesUserExist($data['user_id'])) {
         throw new InvalidArgumentException("User does not exist.");
     }
-    
-    // Validate and set the credit card details
+
     $creditCard->setUserId($data['user_id']);
     $creditCard->setCardNumber($data['card_number']);
     $creditCard->setExpirationDate($data['expiration_date']);
     $creditCard->setCVC($data['cvc']);
 
     if ($creditCard->createCard()) {
-        http_response_code(201); // Created
+        http_response_code(201);
         echo json_encode(["success" => true, "message" => "Credit card created successfully."]);
     } else {
         throw new Exception("Failed to create credit card.");
     }
 
 } catch (InvalidArgumentException $e) {
-    // Handle validation errors
     http_response_code(400);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 } catch (Exception $e) {
-    // Handle other errors (e.g., database issues)
     http_response_code(500);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }

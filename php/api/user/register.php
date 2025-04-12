@@ -29,7 +29,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 require __DIR__ . '/../../vendor/autoload.php';
@@ -83,13 +83,13 @@ try {
 
     $userId = $user->createUser();
 
+
     if ($userId) {
-        // Create the cart for the new user
+        $user->setId($userId);
         $cart = new Cart($db);
         $cart->setUserId($userId);
 
         if ($cart->createCart()) {
-            // Generate the JWT token for the user
             $payload = [
                 "id" => $userId,
                 "email" => $user->getEmail(),
@@ -103,7 +103,7 @@ try {
             echo json_encode([
                 "success" => true,
                 "message" => "User created successfully.",
-                "token" => $jwt // Include the token in the response
+                "token" => $jwt
             ]);
         } else {
             throw new Exception("Unable to create user and cart.");

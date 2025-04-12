@@ -7,8 +7,6 @@
  * for password verification and utility functions for centralized error handling.
  */
 
- // WARNING: getUserById, getUserByEmail retreive password and questions: necessary?
-
 class User {
     private $conn;
     private $table_name = "user";
@@ -56,7 +54,6 @@ class User {
      * @param string $password Plaintext password (minimum 8 characters)
      * @throws InvalidArgumentException if the password does not meet criteria
      */
-    // NOTE: Consider adding required password schema
     public function setPassword($password) {
         if (empty($password)) {
             throw new InvalidArgumentException("Invalid Password: must be at least 8 characters.");
@@ -76,7 +73,6 @@ class User {
         if (empty($security_answer) || strlen($security_answer) > 512) {
             throw new InvalidArgumentException("Invalid Security Answer: must be up to 512 characters.");
         }
-        // Store the hashed version instead of HTML encoded
         $this->security_answer = $security_answer;
     }
     
@@ -85,7 +81,7 @@ class User {
     }
 
     public function setRole($role) {
-        $allowedRoles = ['A', 'U']; // Define allowed roles
+        $allowedRoles = ['A', 'U'];
         if (!in_array($role, $allowedRoles)) {
             throw new InvalidArgumentException("Invalid Role: must be 'A' or 'U'.");
         }
@@ -122,15 +118,12 @@ class User {
      */
     public function createUser() {
         try {
-            // Begin transaction for consistency
             $this->conn->beginTransaction();
-            
-            // Check for existing email
+
             if ($this->userExistsByEmail()) {
                 throw new InvalidArgumentException("Email already in use.");
             }
-        
-            // Check for existing username
+
             if ($this->userExistsByUsername()) {
                 throw new InvalidArgumentException("Username already taken.");
             }
@@ -156,7 +149,7 @@ class User {
             if ($result) {
                 $this->id = $this->conn->lastInsertId();
                 $this->conn->commit();
-                return $this->id;  // Return the ID of the created user
+                return $this->id;
             } else {
                 $this->conn->rollBack();
                 return false;
@@ -250,12 +243,7 @@ class User {
         $stmt->execute();
         return $stmt->fetchColumn() > 0;
     }
-    
-    // Update user, mozno pridate do query toto:
-    /*
-     security_question = :security_question,
-     security_answer = :security_answer
-     */
+
     /**
      * Updates a user's username and/or email
      * Only updates fields that are set, and requires a valid user ID
@@ -291,7 +279,7 @@ class User {
         $stmt->bindParam(':password', $this->password);
         $stmt->bindParam(':id', $this->id);
         
-        return $stmt->execute();  // Return boolean success/failure
+        return $stmt->execute();
     }
 
     /**

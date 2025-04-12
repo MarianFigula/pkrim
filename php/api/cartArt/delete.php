@@ -47,7 +47,7 @@ $cartArt = new CartArt($db);
 $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method !== 'DELETE') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method."
@@ -58,7 +58,7 @@ if ($method !== 'DELETE') {
 $data = json_decode(file_get_contents("php://input"));
 
 if (empty($data->art_id)) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "Art ID is required."
@@ -66,7 +66,7 @@ if (empty($data->art_id)) {
     exit();
 }
 
-$user_id = $decoded->id; // Populated by `auth.php`
+$user_id = $decoded->id;
 $art_id = $data->art_id;
 
 try {
@@ -88,9 +88,6 @@ try {
 
 
     $cartArt->setArtId($art_id);
-
-    //echo json_encode($cart_id, $art_id);
-    //exit();
 
     if ($cartArt->deleteCartArtByCartIdAndArtId()) {
         http_response_code(200);

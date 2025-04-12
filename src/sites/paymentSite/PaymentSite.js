@@ -13,18 +13,17 @@ export default function PaymentSite() {
     const [expirationDate, setExpirationDate] = useState("");
     const [cvc, setCVC] = useState("");
     const location = useLocation();
-    const { totalToPay } = location.state || {}; // Access the totalToPay from the state
+    const { totalToPay } = location.state || {};
     const navigate = useNavigate();
-    const { cartArtDetails, clearCart } = useCart(); // Include clearCart
+    const { cartArtDetails, clearCart } = useCart();
     const {token} = useAuth()
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
-    // Validation functions
-    const validateFullName = (name) => /^[a-zA-Z]+ [a-zA-Z]+$/.test(name); // Requires a first and last name
+    const validateFullName = (name) => /^[a-zA-Z]+ [a-zA-Z]+$/.test(name);
     const validateCardNumber = (number) =>
-        /^\d{16}$/.test(number.replace(/\s/g, "")); // 4*4 digits
+        /^\d{16}$/.test(number.replace(/\s/g, ""));
     const validateExpirationDate = (date) =>
-        /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(date); // MM/YY format
+        /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(date);
     const validateCVC = (cvc) => /^\d{3}$/.test(cvc);
 
     const handleNameChange = (e) => {
@@ -69,8 +68,6 @@ export default function PaymentSite() {
             return;
         }
 
-        console.log(expirationDate);
-        console.log(validateExpirationDate(expirationDate));
         if (!validateExpirationDate(expirationDate)) {
             setError("Please enter a valid expiration date (MM/YY).");
             return;
@@ -96,7 +93,6 @@ export default function PaymentSite() {
 
             const result = response.data
             if (result.success){
-                console.log("Payment successful. Cart cleared.");
                 clearCart();
                 navigate("/payment-accepted", { state: {cartArtDetails, totalToPay } });
             }else {
@@ -109,7 +105,6 @@ export default function PaymentSite() {
             clearCart();
             navigate("/payment-denied");
         }
-        console.log("Payment details are valid. Proceeding to payment...");
     }
 
     return (

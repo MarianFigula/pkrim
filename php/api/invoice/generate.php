@@ -41,7 +41,7 @@ try {
     $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$user_row) {
-        http_response_code(404); // Not Found
+        http_response_code(404);
         echo json_encode([
             "success" => false,
             "message" => "User not found."

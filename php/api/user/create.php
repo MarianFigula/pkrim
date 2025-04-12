@@ -57,7 +57,6 @@ if (!$data) {
     exit;
 }
 
-// NOTE: but role may remain U by default
 try {
     $user->setUsername($data['username']);
     $user->setEmail($data['email']);
@@ -67,18 +66,16 @@ try {
     $user->setRole($data['role'] ?? 'U');
 
     if ($user->createUser()) {
-        http_response_code(201); // Created
+        http_response_code(201);
         echo json_encode(["success" => true, "message" => "User created successfully."]);
     } else {
         throw new Exception("Failed to create user.");
     }
 
 } catch (InvalidArgumentException $e) {
-    // Handle validation errors
     http_response_code(400);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 } catch (Exception $e) {
-    // Handle other errors (e.g., database issues)
     http_response_code(500);
     echo json_encode(["success" => false, "message" => $e->getMessage()]);
 }

@@ -118,12 +118,10 @@ class Review {
         try {
             $this->review_creation_date = date('Y-m-d H:i:s');
 
-            // Vulnerable to SQL injection
             $query = "INSERT INTO " . $this->table_name . " 
                   (user_id, art_id, review_text, rating, review_creation_date)
                   VALUES ('" . $this->user_id . "', '" . $this->art_id . "', '" . $this->review_text . "', '" . $this->rating . "', '" . $this->review_creation_date . "')";
 
-            //var_dump($query); die();
             $stmt = $this->conn->query($query);
 
             return $stmt !== false;
@@ -236,17 +234,17 @@ class Review {
         $fieldsToUpdate = [];
 
         if (!empty($this->review_text)) {
-            $fieldsToUpdate[] = "review_text = '" . $this->review_text . "'"; // Vulnerable to SQL injection
+            $fieldsToUpdate[] = "review_text = '" . $this->review_text . "'";
         }
         if ($this->rating !== null) {
-            $fieldsToUpdate[] = "rating = " . $this->rating; // Vulnerable to SQL injection
+            $fieldsToUpdate[] = "rating = " . $this->rating;
         }
 
         if (empty($fieldsToUpdate)) {
             throw new Exception("No fields to update.");
         }
 
-        $query .= implode(", ", $fieldsToUpdate) . ", review_creation_date = CURRENT_TIMESTAMP WHERE id = " . $this->id; // Vulnerable to SQL injection
+        $query .= implode(", ", $fieldsToUpdate) . ", review_creation_date = CURRENT_TIMESTAMP WHERE id = " . $this->id;
 
         $stmt = $this->conn->query($query);
 

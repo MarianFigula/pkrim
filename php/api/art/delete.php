@@ -26,7 +26,6 @@ $db = $database->getConnection();
 
 $art = new Art($db);
 
-// Ensure the request method is DELETE
 if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     http_response_code(405);
     echo json_encode([
@@ -36,7 +35,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-// Ensure action=delete is in query parameters
 if ($_GET['action'] !== 'delete') {
     http_response_code(400);
     echo json_encode([
@@ -67,7 +65,6 @@ if (empty($art_ids)) {
 }
 
 try {
-    // Attempt to delete the artworks by passing the array of IDs
     if (!$art->deleteArtsByIds($art_ids)) {
         http_response_code(400);
         echo json_encode([

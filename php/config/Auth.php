@@ -1,14 +1,13 @@
 <?php
-require __DIR__ . '/../vendor/autoload.php'; // Load JWT library
+require __DIR__ . '/../vendor/autoload.php';
 
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable(dirname(__DIR__, 1)); // Go two levels up
+$dotenv = Dotenv::createImmutable(dirname(__DIR__, 1));
 $dotenv->load();
 
-// Retrieve the secret key from .env
 $key = $_ENV['JWT_SECRET'];
 
 $headers = getallheaders();

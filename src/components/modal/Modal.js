@@ -2,7 +2,6 @@ import React from "react";
 import "./Modal.css"
 import "../sidebar/SideBar.css"
 
-// TODO: potom prepisat na <dialog>
 export function Modal({isOpen, onClose, title, children}){
 
     if (!isOpen) return null;

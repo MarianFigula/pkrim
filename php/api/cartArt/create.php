@@ -67,7 +67,7 @@ if (empty($data->art_id)) {
     exit();
 }
 
-$user_id = $decoded->id; // `Auth.php` populates the $decoded variable
+$user_id = $decoded->id;
 $art_id = $data->art_id;
 
 try {

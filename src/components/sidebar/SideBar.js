@@ -7,8 +7,8 @@ export function SideBar({show, closeSidebar }){
     const {logout} = useAuth()
 
     const handleLogout = () => {
-        logout(); // Log out the user
-        closeSidebar(); // Close the sidebar
+        logout();
+        closeSidebar();
     };
 
     return(

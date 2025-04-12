@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-// Validate "ids" query param
 if (empty($_GET['user_id'])) {
     http_response_code(400);
     echo json_encode([
@@ -60,7 +59,6 @@ if (empty($ids)) {
 }
 
 try {
-    // Pass the raw IDs array to the model and let it handle the filtering
     if (!$user->deleteUsersByIds($ids)) {
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "No valid IDs provided or deletion failed"]);

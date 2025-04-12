@@ -1,4 +1,3 @@
-// src/components/Header.js
 import React, {useState} from 'react';
 import {Link, useLocation} from 'react-router-dom';
 import "./Header.css"
@@ -7,18 +6,13 @@ import {useCart} from "../cartProvider/CartProvider";
 
 export function Header() {
     const {cartCount} = useCart();
-    // Define routes where icons should not be displayed
     const noIconRoutes = ["/login", "/register", "/forgot-password"];
     const location = useLocation();
-
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const hideIcons = noIconRoutes.includes(location.pathname);
 
     const toggleSidebar = () => {
-        console.log("open")
-        console.log("before:", sidebarVisible)
         setSidebarVisible(prevState => !prevState);
-        console.log("after", sidebarVisible)
     }
     const closeSidebar = () => {
         setSidebarVisible(false);

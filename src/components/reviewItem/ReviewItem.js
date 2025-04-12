@@ -1,7 +1,7 @@
 import UserIcon  from  "../../assets/user-pictures/22.png"
 
 export function ReviewItem({ username, date, reviewText, rating }) {
-    const totalStars = 5; // Always display 5 stars
+    const totalStars = 5;
 
     return (
         <div className="review mb-2">

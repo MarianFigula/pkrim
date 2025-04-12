@@ -9,10 +9,10 @@ export function Art({ art }) {
     const [isArtImageModalOpen, setIsArtImageModalOpen] = useState(false);
     const [isAddedToCart, setIsAddedToCart] = useState(
         cartArtIds.includes(art.art_id)
-    ); // Initialize based on cart state
+    );
 
     useEffect(() => {
-        setIsAddedToCart(cartArtIds.includes(art.art_id)); // Update state when cartArtIds change
+        setIsAddedToCart(cartArtIds.includes(art.art_id));
     }, [cartArtIds, art.art_id]);
 
     async function handleAddToCartClick() {
@@ -36,7 +36,7 @@ export function Art({ art }) {
             const result = response.data;
             if (result.success) {
                 incrementCartCount();
-                setIsAddedToCart(true); // Disable the button and mark as added
+                setIsAddedToCart(true);
             }else {
                 alert("An error occurred while adding art to cart.");
             }

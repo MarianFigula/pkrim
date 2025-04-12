@@ -22,7 +22,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -49,7 +49,7 @@ if ($method !== "GET") {
 try {
 
     if (isset($_GET["admin_all"]) && $decoded->role != "S") {
-        http_response_code(403); // Forbidden
+        http_response_code(403);
         echo json_encode([
             "success" => false,
             "message" => "Admin privileges are required to view all reviews."
@@ -63,14 +63,14 @@ try {
         $stmt = $art->getArtsByUserId();
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $reviews,
         ]);
         exit();
     }
-    // Fetch art by ID
+
     if (isset($_GET['id'])) {
         $art_id = intval($_GET['id']);
         $art->setId($art_id);
@@ -78,7 +78,7 @@ try {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode([
                 "success" => false,
                 "message" => "Art not found."
@@ -86,7 +86,7 @@ try {
             exit();
         }
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $row
@@ -98,7 +98,7 @@ try {
         $stmt = $art->getArtWithReviewsAndUser();
         $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $arts
@@ -107,14 +107,14 @@ try {
     }
 
     $userId = $decoded->id;
-    // Fetch arts by authenticated user's ID
+
     if ($decoded->id) {
         $user_id = $userId;
         $art->setUserId($user_id);
         $stmt = $art->getArtsByUserId();
         $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $arts
@@ -131,7 +131,7 @@ try {
     ]);
     exit();
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

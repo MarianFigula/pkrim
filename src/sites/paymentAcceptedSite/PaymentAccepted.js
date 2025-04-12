@@ -8,7 +8,7 @@ export function PaymentAccepted(){
     const location = useLocation();
     const { cartArtDetails, totalToPay } = location.state || {};
     const { token } = useAuth();
-    const [error, setError] = useState(null); // Handle errors
+    const [error, setError] = useState(null);
     const serverUrl = process.env.REACT_APP_SERVER_URL
 
 
@@ -37,15 +37,14 @@ export function PaymentAccepted(){
                 link.click();
                 link.remove();
                 window.URL.revokeObjectURL(url);
-                console.log("Invoice downloaded successfully!");
             } else {
-                const text = await response.data.text(); // Convert blob to text
-                const errorResponse = JSON.parse(text); // Parse the JSON error
+                const text = await response.data.text();
+                const errorResponse = JSON.parse(text);
 
                 if (errorResponse.message) {
-                    setError(errorResponse.message); // Set the error message from the backend
+                    setError(errorResponse.message);
                 } else {
-                    setError("An unexpected error occurred. Please try again."); // Fallback error message
+                    setError("An unexpected error occurred. Please try again.");
                 }
             }
 
@@ -56,7 +55,6 @@ export function PaymentAccepted(){
                 setError(errorResponse.message);
             }
             else {
-                console.log(error)
                 setError("Error downloading invoice, please try again later.");
             }
         }

@@ -3,18 +3,16 @@ import axios from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import {useAuth} from "../auth/AuthContext";
 
-// Create Cart Context
 const CartContext = createContext();
 
-// Cart Provider Component
 export function CartProvider({ children }) {
     const [cartCount, setCartCount] = useState(0);
     const [cartArtIds, setCartArtIds] = useState([]);
-    const [cartArtDetails, setCartArtDetails] = useState([]); // Store full art details
+    const [cartArtDetails, setCartArtDetails] = useState([]);
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
     const location = useLocation();
-    const { token } = useAuth();  // Get the token from the AuthContext
+    const { token } = useAuth();
     const navigate = useNavigate()
 
     async function fetchCartArtIds() {
@@ -23,7 +21,7 @@ export function CartProvider({ children }) {
                 `${serverUrl}/api/cartArt/read.php`,
                 {
                     headers: {
-                        Authorization: `Bearer ${token}`, // Use token from AuthContext
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -37,7 +35,7 @@ export function CartProvider({ children }) {
                 console.error("Error response", response);
             }
         } catch (error) {
-            console.log()
+            console.error("Error fetching cart art IDs:", error);
         }
     }
 
@@ -50,7 +48,6 @@ export function CartProvider({ children }) {
                 }
             );
 
-            // Assuming the response contains an array of art details
             const data = response.data;
             if (data.success) {
                 setCartArtDetails(response.data.data);
@@ -63,20 +60,19 @@ export function CartProvider({ children }) {
     }
 
     useEffect(() => {
-        // Fetch cart data on all routes except /login and /register
         const excludedRoutes = ["/login", "/register", "/forgot-password"];
 
         if (token && !excludedRoutes.includes(location.pathname)) {
             fetchCartArtIds();
         }
-    }, [location.pathname, token, cartCount]);
+    }, [location.pathname, token]);
 
     async function removeFromCart(artId) {
         try {
             const response = await axios.delete(`${serverUrl}/api/cartArt/delete.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // Use token from AuthContext
+                    Authorization: `Bearer ${token}`,
                 },
                 data: {
                     art_id: artId,
@@ -98,15 +94,14 @@ export function CartProvider({ children }) {
     }
 
     const clearCart = () => {
-        setCartArtIds([]); // Clear all art IDs
-        setCartCount(0); // Reset count
+        setCartArtIds([]);
+        setCartCount(0);
     };
 
     const incrementCartCount = () => setCartCount((prev) => prev + 1);
     const decrementCartCount = () =>
         setCartCount((prev) => Math.max(prev - 1, 0));
 
-    console.log("car count", cartCount);
     return (
         <CartContext.Provider
             value={{

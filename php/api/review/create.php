@@ -27,7 +27,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -42,9 +42,8 @@ $db = $database->getConnection();
 
 $review = new Review($db);
 
-// Ensure the request method is POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method."
@@ -63,17 +62,13 @@ if (empty($data->art_id) || empty($data->review_text) || empty($data->rating)) {
     exit();
 }
 
-// Sanitize inputs
 $art_id = intval($data->art_id);
 $review_text = $data->review_text;
 $rating = intval($data->rating);
 
-// Validate user existence
-
 try {
-    $reviewer_user_id = $decoded->id; // Extract user ID from JWT token
+    $reviewer_user_id = $decoded->id;
 
-    // Validate artwork existence
     $art = new Art($db);
     $art->setId($art_id);
 
@@ -81,7 +76,7 @@ try {
     $artRow = $artStmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$artRow) {
-        http_response_code(404); // Not Found
+        http_response_code(404);
         echo json_encode([
             "success" => false,
             "message" => "Art not found."
@@ -91,9 +86,6 @@ try {
 
     $art_creator_user_id = $artRow["user_id"];
 
-
-
-    // Prevent duplicate reviews (user_id + art_id combination)
     $existingReviewQuery = "SELECT id FROM review WHERE user_id = :user_id AND art_id = :art_id LIMIT 1";
     $stmt = $db->prepare($existingReviewQuery);
     $stmt->execute([
@@ -102,7 +94,7 @@ try {
     ]);
 
     if ($stmt->rowCount() > 0) {
-        http_response_code(200); // Bad Request
+        http_response_code(200);
         echo json_encode([
             "success" => false,
             "message" => "You have already reviewed this artwork."
@@ -110,14 +102,13 @@ try {
         exit();
     }
 
-    // Create the review
     $review->setUserId($reviewer_user_id);
     $review->setArtId($art_id);
     $review->setReviewText($review_text);
     $review->setRating($rating);
 
     if ($review->createReview()) {
-        http_response_code(201); // Created
+        http_response_code(201);
         echo json_encode([
             "success" => true,
             "message" => "Review successfully created."
@@ -126,13 +117,13 @@ try {
         throw new Exception("Failed to create review.");
     }
 } catch (InvalidArgumentException $e) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
     ]);
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

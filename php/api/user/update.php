@@ -31,7 +31,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -44,9 +44,8 @@ $db = $database->getConnection();
 
 $user = new User($db);
 
-// Ensure the request method is PUT
 if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method."
@@ -57,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 $data = json_decode(file_get_contents("php://input"));
 
 if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "Valid user ID is required to update user information."
@@ -65,12 +64,11 @@ if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" 
     exit();
 }
 
-// Check for at least one parameter to update
 $username = isset($data->username) ? trim($data->username) : null;
 $email = isset($data->email) ? trim($data->email) : null;
 
 if (empty($username) && empty($email)) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "At least one parameter ('username' or 'email') is required to update the user."
@@ -79,12 +77,11 @@ if (empty($username) && empty($email)) {
 }
 
 try {
-    $user_id = $decoded->id; // Get the authenticated user ID from the JWT
-    $is_admin = $decoded->role === 'S'; // Check if the user is an admin
+    $user_id = $decoded->id;
+    $is_admin = $decoded->role === 'S';
 
-    // Allow admins to update any user, but restrict non-admins to their own profile
     if (!$is_admin && $data->id != $user_id) {
-        http_response_code(403); // Forbidden
+        http_response_code(403);
         echo json_encode([
             "success" => false,
             "message" => "You do not have permission to update this user."
@@ -92,13 +89,12 @@ try {
         exit();
     }
 
-    // Check if the user exists
     $user->setId($data->id);
     $stmt = $user->getUserById();
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$row) {
-        http_response_code(404); // Not Found
+        http_response_code(404);
         echo json_encode([
             "success" => false,
             "message" => "User not found."
@@ -110,7 +106,6 @@ try {
     $user->setEmail($data->email);
     $user->setUsername($data->username);
 
-    // Perform the update
     if ($user->updateUserById()) {
         http_response_code(200);
         echo json_encode([
@@ -125,13 +120,13 @@ try {
         throw new Exception("Failed to update user.");
     }
 } catch (InvalidArgumentException $e) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
     ]);
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

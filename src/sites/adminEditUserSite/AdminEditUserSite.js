@@ -10,11 +10,6 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
 
-// admin page
-// TODO ked zmenim id v url a aj ked tam na zaciatku nic neni
-//  ale user s id funguje tak ho updatne, treba zo zmenit ci to nechame
-//  ako naschval bug ?
-
 export function AdminEditUserSite() {
     const { id } = useParams();
     const location = useLocation();
@@ -65,7 +60,7 @@ export function AdminEditUserSite() {
             return;
         }
 
-        const artIds = selectedArtRows.map(art => art.id); // Extract all art_id values
+        const artIds = selectedArtRows.map(art => art.id);
         try {
             const response= await axios.get(`${serverUrl}/api/art/delete.php`, {
                 params: {
@@ -73,7 +68,7 @@ export function AdminEditUserSite() {
                     art_id: artIds,
                 },
                 paramsSerializer: (params) =>
-                    new URLSearchParams(params).toString(), // Ensures proper serialization
+                    new URLSearchParams(params).toString(),
             });
 
             const result = response.data
@@ -106,7 +101,7 @@ export function AdminEditUserSite() {
                     review_id: reviewIds,
                 },
                 paramsSerializer: (params) =>
-                    new URLSearchParams(params).toString(), // Ensures proper serialization
+                    new URLSearchParams(params).toString(),
             });
 
             const result = response.data
@@ -128,22 +123,20 @@ export function AdminEditUserSite() {
                 },
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // Add JWT token for authentication
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
             const result = response.data;
-            console.log("result:", result)
             if (result.success) {
-                setArtData(result.data); // Set fetched art data into state
-                setArtRecords(result.data); // Optionally set into another state for records
+                setArtData(result.data);
+                setArtRecords(result.data);
             } else {
                 alert("Error fetching art data:")
                 console.error("Error: ", result);
             }
         } catch (error) {
             console.error("Error fetching art data:", error);
-            // Handle errors gracefully
         }
     };
 
@@ -158,23 +151,21 @@ export function AdminEditUserSite() {
                     },
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Include JWT for authentication
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
             const result = response.data;
-            console.log("REVOEWS", result)
             if (result.success) {
-                setReviewData(result.data); // Store the fetched reviews in state
-                setReviewRecords(result.data); // Optionally store for records
+                setReviewData(result.data);
+                setReviewRecords(result.data);
             } else {
                 alert("Error fetching review data")
                 console.error("Error: ", result.message, result);
             }
         } catch (error) {
             console.error("Error fetching review data:", error);
-            // Optionally handle errors in the UI, e.g., show an error message
         }
     };
 
@@ -190,7 +181,6 @@ export function AdminEditUserSite() {
     }, [id]);
 
     const editArtsHandler = (row) => {
-        console.log(row);
         setArtEditData({
             id: row.id,
             title: row.title,
@@ -201,7 +191,6 @@ export function AdminEditUserSite() {
     };
 
     const editReviewsHandler = (row) => {
-        console.log(row);
         setReviewEditData({
             id: row.id,
             review_text: row.review_text,
@@ -249,7 +238,6 @@ export function AdminEditUserSite() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Submitting user edit");
         setError("")
         try {
             const response = await axios.put(
@@ -262,13 +250,12 @@ export function AdminEditUserSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Add JWT token for authentication
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
             const result = response.data;
-            console.log(result);
 
             if (result.success) {
                 setUsername(result.data.username);
@@ -302,7 +289,6 @@ export function AdminEditUserSite() {
             );
     
             const result = response.data;
-            console.log(response.status)
             if (result.success) {
                 setUsername(result.data.username);
                 setDisplayUsername(result.data.username);
@@ -333,7 +319,7 @@ export function AdminEditUserSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Add JWT token for authentication
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -342,7 +328,7 @@ export function AdminEditUserSite() {
 
             if (result.success) {
                 alert("Artwork updated successfully.");
-                window.location.reload(); // Reload the page to reflect changes
+                window.location.reload();
             } else {
                 console.error("Error:", result.message);
                 setError("An error occurred while updating the artwork."
@@ -370,7 +356,7 @@ export function AdminEditUserSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Add JWT token for authentication
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -379,7 +365,7 @@ export function AdminEditUserSite() {
 
             if (result.success) {
                 alert("Review updated successfully.");
-                window.location.reload(); // Reload the page to reflect changes
+                window.location.reload();
             } else {
                 setError("An error occurred while updating the review.");
                 console.error("Error:", result.message);

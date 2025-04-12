@@ -148,7 +148,6 @@ class Art {
         }
     }    
 
-    // IDEA - too complex for the RESTful standard?
     /**
      * Retrieves artwork with associated reviews and user data
      * @return PDOStatement Result set containing artwork, reviews, and user data
@@ -156,27 +155,27 @@ class Art {
     public function getArtWithReviewsAndUser() {
         $query = "
             SELECT 
-                art_creator.username AS art_creator_username,     -- Username of the art creator
-                a.user_id AS art_creator_id,                     -- ID of the user who created the art
+                art_creator.username AS art_creator_username,    
+                a.user_id AS art_creator_id,                     
                 a.id AS art_id,
-                a.img_url,                                        -- URL of the art image
-                a.title,                                          -- Art title
-                a.description,                                    -- Art description
-                a.price,                                          -- Art price
-                a.upload_date,                                    -- Art upload date
-                review_user.username AS review_user_username,     -- Username of the user who left the review
-                r.user_id AS review_user_id,                      -- ID of the user who left the review
-                r.review_text,                                    -- Review text
-                r.rating,                                         -- Rating from the review
-                r.review_creation_date                            -- Date of the review
+                a.img_url,                                       
+                a.title,                                         
+                a.description,                                   
+                a.price,                                         
+                a.upload_date,                                   
+                review_user.username AS review_user_username,    
+                r.user_id AS review_user_id,                     
+                r.review_text,                                   
+                r.rating,                                        
+                r.review_creation_date                           
             FROM 
                 " . $this->table_name . " a
             JOIN 
-                user art_creator ON a.user_id = art_creator.id    -- Join the User table for the art creator's details
+                user art_creator ON a.user_id = art_creator.id   
             LEFT JOIN 
-                review r ON a.id = r.art_id                       -- Join the Review table to get reviews
+                review r ON a.id = r.art_id                      
             LEFT JOIN 
-                user review_user ON r.user_id = review_user.id    -- Join the User table again for the reviewer's details
+                user review_user ON r.user_id = review_user.id   
             ORDER BY 
                 a.upload_date DESC;
         ";
@@ -199,10 +198,8 @@ class Art {
     }
 
     public function getArtByIds($artIds) {
-        // Ensure that the $artIds is sanitized to prevent SQL injection
-        $artIds = implode(',', array_map('intval', explode(',', $artIds))); // sanitize the input
+        $artIds = implode(',', array_map('intval', explode(',', $artIds)));
 
-        // Update query to join with user table and get the author's name (username)
         $query = "
         SELECT 
             a.id AS art_id,
@@ -212,15 +209,14 @@ class Art {
             a.description,
             a.price,
             a.upload_date,
-            u.username AS author_name  -- Retrieve the username of the author
+            u.username AS author_name
         FROM 
             " . $this->table_name . " a
         JOIN 
-            user u ON a.user_id = u.id  -- Join with the user table to get the author's data
+            user u ON a.user_id = u.id
         WHERE 
-            a.id IN ($artIds)";  // Use sanitized art IDs
+            a.id IN ($artIds)";
 
-        // Prepare and execute the query
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
 
@@ -261,21 +257,20 @@ class Art {
         $fieldsToUpdate = [];
     
         if (!empty($this->title)) {
-            $fieldsToUpdate[] = "title = '" . $this->title . "'"; // Vulnerable to SQL injection
+            $fieldsToUpdate[] = "title = '" . $this->title . "'";
         }
         if (!empty($this->description)) {
-            $fieldsToUpdate[] = "description = '" . $this->description . "'"; // Vulnerable to SQL injection
+            $fieldsToUpdate[] = "description = '" . $this->description . "'";
         }
         if ($this->price !== null) {
-            $fieldsToUpdate[] = "price = " . $this->price; // Vulnerable to SQL injection
+            $fieldsToUpdate[] = "price = " . $this->price;
         }
     
         if (empty($fieldsToUpdate)) {
             throw new Exception("No fields to update.");
         }
 
-        $query .= implode(", ", $fieldsToUpdate) . ", upload_date = CURRENT_TIMESTAMP() WHERE id = " . $this->id; // Vulnerable to SQL injection
-        // Execute the query directly (no prepared statements)
+        $query .= implode(", ", $fieldsToUpdate) . ", upload_date = CURRENT_TIMESTAMP() WHERE id = " . $this->id;
         $stmt = $this->conn->query($query);
 
         return $stmt !== false;

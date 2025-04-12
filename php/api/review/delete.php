@@ -38,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
     exit;
 }
 
-// Validate "action" query param
 if (!isset($_GET['action']) || $_GET['action'] !== 'delete') {
     http_response_code(400);
     echo json_encode([
@@ -48,7 +47,6 @@ if (!isset($_GET['action']) || $_GET['action'] !== 'delete') {
     exit;
 }
 
-// Validate "ids" query param
 if (empty($_GET['review_id'])) {
     http_response_code(400);
     echo json_encode([
@@ -58,7 +56,6 @@ if (empty($_GET['review_id'])) {
     exit;
 }
 
-// Convert comma-separated list to an array
 $ids = explode(',', $_GET['review_id']);
 
 if (empty($ids)) {
@@ -71,7 +68,6 @@ if (empty($ids)) {
 }
 
 try {
-    // Attempt to delete reviews by their IDs
     if (!$review->deleteReviewsByIds($ids)) {
         http_response_code(400);
         echo json_encode([

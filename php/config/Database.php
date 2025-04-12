@@ -6,20 +6,12 @@ error_reporting(E_ALL);
 error_reporting(E_WARNING);
 
 class Database {
-    // DOCKER
     private $hostname = 'mysql';
     private $dbname = 'pkrim-art-gallery';
     private $username = 'root';
     private $password = 'root';
     public $conn;
 
-    // LOCAL
-
-//    private $hostname = 'localhost';
-//    private $dbname = 'pkrim-art-gallery';
-//    private $username = 'root';
-//    private $password = '';
-//    public $conn;
     public function getConnection() {
         $this->conn = null;
 

@@ -14,7 +14,7 @@
  *   "title": "New Title",      // Optional: The new title for the artwork (string).
  *   "description": "New Description", // Optional: The new description for the artwork (string).
  *   "price": 100               // Optional: The new price for the artwork (integer or null).
- *   // idea: perhaps edit image file in the future?
+ *
  * }
  * 
  * Response Codes:
@@ -29,7 +29,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -42,9 +42,8 @@ $db = $database->getConnection();
 
 $art = new Art($db);
 
-// Ensure the request method is PUT
 if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method. Only PUT is allowed."
@@ -54,9 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
 
 $data = json_decode(file_get_contents("php://input"));
 
-// Validate the artwork ID
 if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "A valid artwork ID is required to update artwork information."
@@ -64,13 +62,12 @@ if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" 
     exit();
 }
 
-// Validate input fields
 $title = $data->title ?? null;
 $description = $data->description ?? null;
 $price = $data->price ?? null;
 
 if (empty($title) && empty($description) && $price === null) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "At least one parameter ('title', 'description', or 'price') is required to update the artwork."
@@ -78,14 +75,13 @@ if (empty($title) && empty($description) && $price === null) {
     exit();
 }
 
-// Set the artwork ID
+
 $art->setId($data->id);
 
-// Check if the artwork exists
 $stmt = $art->getArtById();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$row) {
-    http_response_code(404); // Not Found
+    http_response_code(404);
     echo json_encode([
         "success" => false,
         "message" => "Artwork not found."
@@ -93,9 +89,8 @@ if (!$row) {
     exit();
 }
 
-// Verify ownership of the artwork
-if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') { // Allow admins to update any artwork
-    http_response_code(403); // Forbidden
+if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') {
+    http_response_code(403);
     echo json_encode([
         "success" => false,
         "message" => "You do not have permission to update this artwork."
@@ -104,7 +99,6 @@ if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') { // Allow admin
 }
 
 try {
-    // Set fields to update
     if (!empty($title)) {
         $art->setTitle($title);
     }
@@ -115,9 +109,8 @@ try {
         $art->setPrice($price);
     }
 
-    // Update the artwork
     if ($art->updateArtById()) {
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "message" => "Artwork successfully updated."
@@ -126,13 +119,13 @@ try {
         throw new Exception("Failed to update artwork.");
     }
 } catch (InvalidArgumentException $e) {
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => $e->getMessage()
     ]);
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

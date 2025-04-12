@@ -15,22 +15,21 @@ import {getJwtToken} from "../../components/auth/AuthHelper";
 import {useAuth} from "../../components/auth/AuthContext";
 
 export function MainSite() {
-    // State to store arts and search term
     const { cartArtIds } = useCart();
-    const { token } = useAuth(); // Access the token directly from the context
+    const { token } = useAuth();
 
 
     const [initialArtData, setInitialArtData] = useState([]);
     const [arts, setArts] = useState([]);
-    const [activeButton, setActiveButton] = useState(null); // Track the active button
-    const [isOriginal, setIsOriginal] = useState(true); // Track if the original data is shown
+    const [activeButton, setActiveButton] = useState(null);
+    const [isOriginal, setIsOriginal] = useState(true);
     const [error, setError] = useState("");
 
     const [isArtModalOpen, setIsArtModalOpen] = useState(false);
     const [reviewText, setReviewText] = useState("");
-    const [reviewRating, setReviewRating] = useState(0); // State to store the selected rating
+    const [reviewRating, setReviewRating] = useState(0);
 
-    const [selectedArtId, setSelectedArtId] = useState(null); // store the selected art id
+    const [selectedArtId, setSelectedArtId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -49,7 +48,7 @@ export function MainSite() {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}` // Add token from context to headers
+                    Authorization: `Bearer ${token}`
                 },
                 params: {
                     all: "Y",
@@ -61,13 +60,12 @@ export function MainSite() {
             if (result.success) {
                 const artDataMap = [];
 
-                const phpBaseUrl = `${serverUrl}/public`; // PHP container's public URL
+                const phpBaseUrl = `${serverUrl}/public`;
 
-                // Iterate through the data to group reviews by art
                 result.data.forEach((item) => {
                     const artId = item.art_id;
                     const imageUrl = `${phpBaseUrl}${item.img_url}`;
-                    // If this art already exists in the map, add the review to its reviews array
+
                     if (artDataMap[artId]) {
                         artDataMap[artId].reviews.push({
                             username: item.review_user_username,
@@ -76,14 +74,13 @@ export function MainSite() {
                             rating: parseInt(item.rating, 10),
                         });
                     } else {
-                        // If this is the first review for this art, initialize the entry
                         artDataMap[artId] = {
                             art_id: artId,
                             username: item.art_creator_username,
                             img_url: imageUrl,
                             title: item.title,
                             description: item.description,
-                            price: parseFloat(item.price), // Convert price to number
+                            price: parseFloat(item.price),
                             date: item.upload_date,
                             reviews: item.review_user_username
                                 ? [
@@ -94,12 +91,11 @@ export function MainSite() {
                                           rating: parseInt(item.rating, 10),
                                       },
                                   ]
-                                : [], // Only add a review if there's a username
+                                : [],
                         };
                     }
                 });
 
-                // Convert the map back into an array
                 const artData = Object.values(artDataMap).map((art) => {
                     const totalRating = art.reviews.reduce(
                         (acc, review) => acc + review.rating,
@@ -108,17 +104,16 @@ export function MainSite() {
                     const averageRating =
                         art.reviews.length > 0
                             ? totalRating / art.reviews.length
-                            : 0; // Avoid division by zero
+                            : 0;
                     return {
                         ...art,
-                        averageRating, // Add the average rating to the art object
+                        averageRating,
                     };
                 });
 
-                // Sort arts by average rating
                 const sortedArtData = artData.sort(
                     (a, b) => b.averageRating - a.averageRating
-                ); // Descending order
+                );
                 setArts(sortedArtData);
                 setInitialArtData(sortedArtData);
 
@@ -137,15 +132,10 @@ export function MainSite() {
         fetchData();
     }, [token]);
 
-    useEffect(() => {
-        console.log("Current arts data:", arts);
-    }, [arts]);
-
-    // Function to reset to original state
     const resetToOriginal = () => {
         setArts(initialArtData);
-        setActiveButton(null); // Reset active button
-        setIsOriginal(true); // Indicate we're back to the original state
+        setActiveButton(null);
+        setIsOriginal(true);
     };
 
     const toggleSortByPriceAsc = () => {
@@ -170,7 +160,6 @@ export function MainSite() {
         setIsOriginal(false);
     };
 
-    // Sort by average rating
     const toggleSortByRatingAsc = () => {
         if (activeButton === "ratingAsc") {
             resetToOriginal();
@@ -197,7 +186,6 @@ export function MainSite() {
         setIsOriginal(false);
     };
 
-    // Handle search filtering
     const handleFilter = (event) => {
         const searchValue = event.target.value.toLowerCase();
 
@@ -214,11 +202,10 @@ export function MainSite() {
     };
 
     const openReviewModal = (artId) => {
-        setSelectedArtId(artId); // set the art id when opening the modal
-        setIsArtModalOpen(true); // open the modal
+        setSelectedArtId(artId);
+        setIsArtModalOpen(true);
     };
     const handleReviewSubmit = async (e) => {
-        // Submit review with selectedArtId, reviewText, and rating
         e.preventDefault();
         try {
             const response = await axios.post(
@@ -231,7 +218,7 @@ export function MainSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Add JWT for authentication
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -239,7 +226,6 @@ export function MainSite() {
             const result = response.data;
 
             if (result.success) {
-                console.log("Review successfully created.");
                 alert("Review added successfully.")
                 setIsArtModalOpen(false);
                 window.location.reload();
@@ -336,7 +322,6 @@ export function MainSite() {
                     </div>
                 </section>
 
-                {/* Render filtered arts */}
                 {arts.map((art, index) => (
                     <section className="art-review-wrapper mb-3" key={index}>
                         <Art art={art} />
@@ -354,10 +339,6 @@ export function MainSite() {
                     Upload Art
                     <i className="bi bi-plus"></i>
                 </button>
-                {/*<div className="create-art">*/}
-                {/*    <p>Create Art</p>*/}
-                {/*    <i className="bi bi-plus-circle-fill"></i>*/}
-                {/*</div>*/}
             </div>
         </>
     );

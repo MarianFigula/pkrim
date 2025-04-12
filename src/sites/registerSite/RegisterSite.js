@@ -27,7 +27,7 @@ export function RegisterSite() {
     const [securityAnswer, setSecurityAnswer] = useState("")
     const [error, setError] = useState("")
     const navigate = useNavigate()
-    const { login, token } = useAuth(); // Access the login function from AuthContext
+    const { login, token } = useAuth();
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 

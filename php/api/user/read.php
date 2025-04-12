@@ -26,7 +26,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -56,7 +56,7 @@ try {
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode([
                 "success" => false,
                 "message" => "User not found."
@@ -64,7 +64,7 @@ try {
             exit();
         }
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $row
@@ -73,14 +73,13 @@ try {
     }
 
     $userId = $decoded->id;
-    // Fetch user details by ID
     if ($userId && isset($_GET['user_only']) && $_GET['user_only'] == "Y") {
         $user->setId($userId);
         $stmt = $user->getUserById();
         $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$row) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode([
                 "success" => false,
                 "message" => "User not found."
@@ -88,7 +87,7 @@ try {
             exit();
         }
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $row
@@ -112,7 +111,7 @@ try {
     ]);
     exit();
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

@@ -46,7 +46,6 @@ if (!isset($data->ids) || !is_array($data->ids)) {
 }
 
 try {
-    // Pass the raw IDs array to the model and let it handle the deletion
     if (!$creditCard->deleteCardsByIds($data->ids)) {
         http_response_code(400);
         echo json_encode(["success" => false, "message" => "No valid IDs provided or deletion failed"]);

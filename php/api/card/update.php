@@ -35,9 +35,8 @@ $db = $database->getConnection();
 
 $creditCard = new CreditCard($db);
 
-// Ensure the request method is PUT
 if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method."
@@ -56,7 +55,6 @@ if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" 
     exit;
 }
 
-// Check for at least one parameter to update
 $expiration_date = isset($data->expiration_date) ? $data->expiration_date : null;
 
 if (empty($expiration_date)) {
@@ -68,10 +66,8 @@ if (empty($expiration_date)) {
     exit;
 }
 
-// Set the credit card ID
 $creditCard->setId($data->id);
 
-// Check if the credit card exists
 $stmt = $creditCard->getCardById();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$row) {

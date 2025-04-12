@@ -37,13 +37,7 @@ export function ForgotPasswordSite() {
                 },
             });
             const data = response.data;
-
-            if (data.success){
-                console.log(data);
-                login(data.token)
-            }else {
-                setError(data.message);
-            }
+            data.success ? login(data.token) : setError(data.message);
 
         } catch (error) {
             setError("Something failed. Please try again");

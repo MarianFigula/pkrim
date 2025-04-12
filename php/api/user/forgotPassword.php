@@ -52,9 +52,8 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 $data = json_decode(file_get_contents("php://input"));
 
-// REVIEW: PUT?
 if ($method !== "POST") {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Method not allowed"
@@ -63,7 +62,7 @@ if ($method !== "POST") {
 }
 
 if ($data->password !== $data->repeated_password) {
-    http_response_code(200); // Bad Request
+    http_response_code(200);
     echo json_encode([
         "success" => false,
         "message" => "Passwords do not match."
@@ -71,14 +70,12 @@ if ($data->password !== $data->repeated_password) {
     exit();
 }
 
-// Set the email to search for the user
 $user->setEmail($data->email);
 $stmt = $user->getUserByEmail();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Check if user exists
 if (!$row) {
-    http_response_code(404); // Not Found
+    http_response_code(404);
     echo json_encode([
         "success" => false,
         "message" => "User not found."
@@ -96,7 +93,6 @@ if (!$user->verifySecurityAnswer($data->security_answer, $row['security_answer']
     exit();
 }
 
-// Update the password
 $id = $row["id"];
 $role = $row["role"];
 $user->setId($id);

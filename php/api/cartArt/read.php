@@ -70,7 +70,6 @@ try {
         exit();
     }
 
-    // Get all art IDs from the user's cart
     $cartArt->setCartId($row["id"]);
     $stmt = $cartArt->getCartArtsByCartId();
     $cartArts = $stmt->fetchAll(PDO::FETCH_ASSOC);

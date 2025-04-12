@@ -26,7 +26,6 @@ class CreditCard {
     public function getCardNumber() { return $this->card_number; }
     public function getExpirationDate() { return $this->expiration_date; }
     public function getTableName() { return $this->table_name; }
-    // No getter for CVC for security reasons
 
     /**
      * Sets the credit card ID
@@ -62,7 +61,6 @@ class CreditCard {
         if (empty($card_number) || strlen($card_number) < 13 || strlen($card_number) > 19) {
             throw new InvalidArgumentException("Invalid card number: must be between 13 and 19 digits.");
         }
-        // Optionally, encrypt the card number here for secure storage
         $this->card_number = $card_number;
     }
 
@@ -72,19 +70,16 @@ class CreditCard {
      * @throws InvalidArgumentException if the date is invalid
      */
     public function setExpirationDate($expiration_date) {
-        // Validate the date format (YYYY-MM-DD)
         if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $expiration_date)) {
             throw new InvalidArgumentException("Invalid expiration date format: use YYYY-MM-DD.");
         }
-    
-        // Convert to timestamp and check if it's a valid date
+
         $exp_timestamp = strtotime($expiration_date);
         if (!$exp_timestamp) {
             throw new InvalidArgumentException("Invalid expiration date.");
         }
-    
-        // Ensure the expiration date is in the future
-        $current_date = strtotime(date('Y-m-d')); // Get the current date in YYYY-MM-DD format
+
+        $current_date = strtotime(date('Y-m-d'));
         if ($exp_timestamp <= $current_date) {
             throw new InvalidArgumentException("Expiration date must be in the future.");
         }
@@ -98,13 +93,12 @@ class CreditCard {
      * @throws InvalidArgumentException if the CVC is invalid
      */
     public function setCVC($cvc) {
-        $cvc = preg_replace('/\D/', '', $cvc); // Remove non-digits
+        $cvc = preg_replace('/\D/', '', $cvc);
         
         if (!preg_match('/^[0-9]{3,4}$/', $cvc)) {
             throw new InvalidArgumentException("Invalid CVC: must be 3 or 4 digits.");
         }
 
-        // Store hashed version of CVC
         $this->cvc = password_hash($cvc, PASSWORD_BCRYPT);
     }
 

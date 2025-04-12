@@ -57,20 +57,11 @@ class Cart {
 
         $query = "SELECT * FROM " . $this->table_name . " WHERE user_id = :user_id";
 
-
-        // Prepare the SQL statement
         $stmt = $this->conn->prepare($query);
 
-        // Bind the user ID parameter
         $stmt->bindParam(":user_id", $this->user_id);
 
-        // Execute the query
         $stmt->execute();
-
-        // Return the result set
         return $stmt;
     }
-
-    // TODO: Delete cart by user id - ak budeme chciet aj
-    // spravit ze si user bude moct odstranit ucet
 }

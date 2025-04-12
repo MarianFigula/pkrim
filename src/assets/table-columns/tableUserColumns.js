@@ -1,5 +1,3 @@
-// src/components/tableUserColumns.js
-
 export const getUserColumns = (editHandler) => [
     {
         name: "Id",

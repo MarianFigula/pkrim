@@ -29,7 +29,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -42,9 +42,8 @@ $db = $database->getConnection();
 
 $review = new Review($db);
 
-// Ensure the request method is PUT
 if ($_SERVER['REQUEST_METHOD'] !== 'PUT') {
-    http_response_code(405); // Method Not Allowed
+    http_response_code(405);
     echo json_encode([
         "success" => false,
         "message" => "Invalid request method."
@@ -63,7 +62,6 @@ if (!isset($data->id) || !filter_var($data->id, FILTER_VALIDATE_INT, ["options" 
     exit;
 }
 
-// Check for at least one parameter to update
 $review_text = $data->review_text ?? null;
 $rating = $data->rating ?? null;
 
@@ -76,10 +74,8 @@ if (empty($review_text) && empty($rating)) {
     exit;
 }
 
-// Set the review ID
 $review->setId($data->id);
 
-// Check if the review exists
 $stmt = $review->getReviewById();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$row) {
@@ -91,9 +87,8 @@ if (!$row) {
     exit();
 }
 
-// Verify ownership of the review
-if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') { // Allow admins to update any review
-    http_response_code(403); // Forbidden
+if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') {
+    http_response_code(403);
     echo json_encode([
         "success" => false,
         "message" => "You do not have permission to update this review."
@@ -102,7 +97,6 @@ if ($row['user_id'] !== $decoded->id && $decoded->role !== 'S') { // Allow admin
 }
 
 try {
-    // Set fields to update
     if ($review_text !== null) {
         $review->setReviewText($review_text);
     }
@@ -110,9 +104,8 @@ try {
         $review->setRating($rating);
     }
 
-    // Update the review
     if ($review->updateReviewById()) {
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "message" => "Review successfully updated."

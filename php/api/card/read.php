@@ -85,7 +85,7 @@ if (isset($_GET['user_id'])) {
 
     $stmt = $creditCard->getCardsByUserId();
     $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    // NOTE: Not sure if error or empty array is more context-appropriate
+
     if (empty($cards)) {
         http_response_code(404);
         echo json_encode([
@@ -103,19 +103,6 @@ if (isset($_GET['user_id'])) {
     exit();
 }
 
-// REVIEW - SHOULD WORK, COMMENTED FOR DEBUGGING PURPOSES
-/*
-if ($_SESSION['role'] !== 'A') {
-    http_response_code(403);
-    echo json_encode([
-        "success" => false,
-        "message" => "Access denied. Admin privileges required to view all credit cards."
-    ]);
-    exit();
-}
-*/
-
-// Get all credit cards (admin only)
 $stmt = $creditCard->getAllCards();
 $cards = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

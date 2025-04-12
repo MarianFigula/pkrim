@@ -64,7 +64,7 @@ if (empty($data) || empty($data['arts'])) {
     exit();
 }
 
-$user_id = $decoded->id; // Extracted from JWT
+$user_id = $decoded->id;
 
 $art_ids = array_column($data['arts'], 'art_id');
 
@@ -74,7 +74,7 @@ try {
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$row) {
-        http_response_code(404); // Not Found
+        http_response_code(404);
         echo json_encode(["success" => false, "message" => "Cart not found."]);
         exit();
     }
@@ -93,9 +93,8 @@ try {
         throw new Exception("Failed to remove art from the cart.");
     }
 } catch (Exception $e) {
-    // Rollback the transaction on error
     $db->rollBack();
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred while processing the purchase: " . $e->getMessage()

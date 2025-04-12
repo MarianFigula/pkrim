@@ -35,7 +35,7 @@ export function UserArtsSite() {
             return;
         }
 
-        const artIds = selectedArtRows.map(art => art.id); // Extract all art_id values
+        const artIds = selectedArtRows.map(art => art.id);
         try {
             const response= await axios.get(`${serverUrl}/api/art/delete.php`, {
                 params: {
@@ -43,7 +43,7 @@ export function UserArtsSite() {
                     art_id: artIds,
                 },
                 paramsSerializer: (params) =>
-                    new URLSearchParams(params).toString(), // Ensures proper serialization
+                    new URLSearchParams(params).toString(),
             });
 
             const result = response.data
@@ -55,18 +55,16 @@ export function UserArtsSite() {
         }
     };
 
-    // NEW WAY
     const fetchArtData = async () => {
         try {
             const response = await axios.get(`${serverUrl}/api/art/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // Include JWT for authentication
+                    Authorization: `Bearer ${token}`,
                 }
             });
 
             const result = response.data;
-            console.log(result);
             if (result.success) {
                 setUserArtData(result.data);
                 setUserArtRecords(result.data);
@@ -83,7 +81,6 @@ export function UserArtsSite() {
     }, []);
 
     const editArtsHandler = (row) => {
-        console.log(row);
         setArtEditData({
             id: row.id,
             title: row.title,
@@ -107,12 +104,10 @@ export function UserArtsSite() {
                 row.upload_date.toString().toLowerCase().includes(eventValue)
             );
         });
-        console.log("new data:", newData)
         setUserArtRecords(newData);
     };
 
     const handleEditArtSubmit = async () => {
-        console.log(artEditData);
         try {
             const response = await axios.put(
                 `${serverUrl}/api/art/update.php`,
@@ -125,7 +120,7 @@ export function UserArtsSite() {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        Authorization: `Bearer ${token}`, // Add JWT for authentication
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );

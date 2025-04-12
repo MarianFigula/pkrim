@@ -22,17 +22,11 @@ if ($method !== "GET"){
 }
 
 try {
-//    if ($decoded->role !== "S"){
-//        echo json_encode([
-//            "success" => false,
-//            "message" => "Not admin"]);
-//        exit();
-//    }
 
     $stmt = $user->getAllUsers();
     $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    http_response_code(200); // Success
+    http_response_code(200);
     echo json_encode([
         "success" => true,
         "data" => $users,
@@ -47,7 +41,7 @@ try {
     ]);
     exit();
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

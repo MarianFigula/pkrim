@@ -5,7 +5,6 @@ import { Navigate } from 'react-router-dom';
 const ProtectedRoute = ({ element, ...rest }) => {
     const { token } = useAuth();
 
-    // If there's no token, redirect to login page
     if (!token) {
         return <Navigate to="/login" replace />;
     }

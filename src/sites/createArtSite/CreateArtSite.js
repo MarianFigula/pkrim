@@ -11,12 +11,12 @@ export function CreateArtSite() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState(0);
-    const [file, setFile] = useState(null); // Update state for file
+    const [file, setFile] = useState(null);
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
     const navigate = useNavigate();
 
-    const { token } = useAuth(); // Access the token directly from the context
+    const { token } = useAuth();
 
     const uploadArt = async (event) => {
         event.preventDefault();
@@ -37,7 +37,7 @@ export function CreateArtSite() {
             formData.append("title", title);
             formData.append("description", description);
             formData.append("price", price);
-            formData.append("file", file); // Append the file itself, not just the name
+            formData.append("file", file);
 
             const response = await axios.post(
                 `${serverUrl}/api/art/create.php`,
@@ -45,13 +45,12 @@ export function CreateArtSite() {
                 {
                     headers: {
                         "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${token}`, // Add JWT token
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
 
             const data = response.data;
-            console.log(data);
 
             if (data.success) {
                 alert("Art Successfully Created");
@@ -100,7 +99,7 @@ export function CreateArtSite() {
                     type="file"
                     name="file"
                     id="file"
-                    onChange={(e) => setFile(e.target.files[0])} // Update file state
+                    onChange={(e) => setFile(e.target.files[0])}
                     required
                 />
             </Form>

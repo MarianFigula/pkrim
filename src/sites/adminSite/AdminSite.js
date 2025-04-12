@@ -29,19 +29,15 @@ export function AdminSite() {
             const response = await axios.get(`${serverUrl}/api/user/adminRead.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`, // Include JWT token for authentication
+                    Authorization: `Bearer ${token}`,
                 },
             });
 
             const result = response.data
             if (result.success){
-                console.log(result)
-                console.log(result.message)
                 setData(result.data);
                 setRecords(result.data);
             }else {
-                console.log(result)
-                console.log(result.message)
                 navigate("/")
             }
         } catch (error) {
@@ -76,7 +72,7 @@ export function AdminSite() {
                     user_id: userIds,
                 },
                 paramsSerializer: (params) =>
-                    new URLSearchParams(params).toString(), // Ensures proper serialization
+                    new URLSearchParams(params).toString(),
             });
 
             const result = response.data

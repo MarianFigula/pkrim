@@ -27,7 +27,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -57,7 +57,7 @@ if ($method !== "GET") {
 
 try {
     if (isset($_GET["admin_all"]) && $decoded->role != "S") {
-        http_response_code(403); // Forbidden
+        http_response_code(403);
         echo json_encode([
             "success" => false,
             "message" => "Admin privileges are required to view all reviews."
@@ -70,14 +70,14 @@ try {
         $stmt = $review->getReviewsByUserId();
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $reviews,
         ]);
         exit();
     }
-    // Fetch reviews by authenticated user's ID - userove reviews
+
     if (isset($decoded->email)) {
         $user_email = $decoded->email;
         $user->setEmail($user_email);
@@ -85,7 +85,7 @@ try {
         $user_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$user_row) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode([
                 "success" => false,
                 "message" => "User not found."
@@ -97,7 +97,7 @@ try {
         $stmt = $review->getReviewsByUserId();
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $reviews,
@@ -106,7 +106,6 @@ try {
         exit();
     }
 
-    // Fetch reviews by art ID
     if (isset($_GET['review_id'])) {
         $art_id = intval($_GET['review_id']);
         $art->setId($art_id);
@@ -114,7 +113,7 @@ try {
         $art_row = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if (!$art_row) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode([
                 "success" => false,
                 "message" => "Art not found."
@@ -127,7 +126,7 @@ try {
         $reviews = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($reviews)) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode([
                 "success" => false,
                 "message" => "No reviews found for the specified art."
@@ -135,7 +134,7 @@ try {
             exit();
         }
 
-        http_response_code(200); // Success
+        http_response_code(200);
         echo json_encode([
             "success" => true,
             "data" => $reviews,
@@ -145,13 +144,13 @@ try {
     }
 
 
-    http_response_code(400); // Bad Request
+    http_response_code(400);
     echo json_encode([
         "success" => false,
         "message" => "Invalid query parameters."
     ]);
 } catch (Exception $e) {
-    http_response_code(500); // Internal Server Error
+    http_response_code(500);
     echo json_encode([
         "success" => false,
         "message" => "An error occurred: " . $e->getMessage()

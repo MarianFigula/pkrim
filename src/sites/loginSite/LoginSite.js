@@ -14,7 +14,7 @@ export function LoginSite() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const serverUrl = process.env.REACT_APP_SERVER_URL;
-    const { login, token } = useAuth(); // Access the login function from AuthContext
+    const { login, token } = useAuth();
 
     useEffect(() => {
         if (token) {
@@ -40,7 +40,6 @@ export function LoginSite() {
                 }
             );
 
-            // NEW WAY
             const data = response.data;
             data.success ? login(data.token) : setError(data.message);
         } catch (error) {
@@ -59,8 +58,7 @@ export function LoginSite() {
             >
                 <FormInput
                     label="Email"
-                    // TODO: change from type text to email
-                    type="text"
+                    type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
@@ -70,7 +68,7 @@ export function LoginSite() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    // required
+                    required
                 />
             </Form>
 

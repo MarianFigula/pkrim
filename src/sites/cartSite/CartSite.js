@@ -10,10 +10,10 @@ import {useCart} from "../../components/cartProvider/CartProvider";
 import {redirect, useNavigate} from "react-router-dom";
 
 export default function CartSite() {
-    const { cartArtDetails, removeFromCart } = useCart(); // Use cartArtDetails from context
+    const { cartArtDetails, removeFromCart } = useCart();
     const [isCartModalOpen, setIsCartModalOpen] = useState(false)
     const [totalToPay, setTotalToPay ] = useState(0)
-    const [selectedArt, setSelectedArt] = useState(null); // State for the selected art
+    const [selectedArt, setSelectedArt] = useState(null);
 
     const navigate = useNavigate()
 
@@ -22,18 +22,15 @@ export default function CartSite() {
 
     useEffect(() => {
         const total = cartArtDetails.reduce((sum, art) => {
-            return parseInt(sum) + (parseInt(art.price) || 0); // Add price for each art
+            return parseInt(sum) + (parseInt(art.price) || 0);
         }, 0);
-        setTotalToPay(total); // Set the calculated total
-        console.log("totaltopay", totalToPay)
-    }, [cartArtDetails]); // Recalculate total if cartArtDetails changes
+        setTotalToPay(total);
+    }, [cartArtDetails]);
 
     function showArtModal(art) {
-        setSelectedArt(art); // Set the clicked art
+        setSelectedArt(art);
         setIsCartModalOpen(true);
     }
-
-    console.log("cd", cartArtDetails)
 
     return (
         <>
@@ -70,7 +67,7 @@ export default function CartSite() {
                                 authorName={art.author_name}
                                 price={art.price}
                                 onClickDisplayImage={() => showArtModal(art)}
-                                onClickDeleteArtFromCart={() => removeFromCart(art.art_id)} // Call removeFromCart
+                                onClickDeleteArtFromCart={() => removeFromCart(art.art_id)}
                             />
                         ))}
                     </section>

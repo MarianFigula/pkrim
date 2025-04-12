@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Form } from "../../components/form/Form";
 import { FormInput } from "../../components/formInput/FormInput";
 import { Modal } from "../../components/modal/Modal";
@@ -36,7 +35,7 @@ export function UserReviewsSite() {
                     review_id: reviewIds,
                 },
                 paramsSerializer: (params) =>
-                    new URLSearchParams(params).toString(), // Ensures proper serialization
+                    new URLSearchParams(params).toString(),
             });
 
             const result = response.data
@@ -63,7 +62,7 @@ export function UserReviewsSite() {
             const response = await axios.get(`${serverUrl}/api/review/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}` // Add token from context to headers
+                    Authorization: `Bearer ${token}`
                 },
             });
 
@@ -84,7 +83,6 @@ export function UserReviewsSite() {
     }, []);
 
     const editReviewsHandler = (row) => {
-        console.log(row);
         setReviewEditData({
             id: row.id,
             review_text: row.review_text,
@@ -125,38 +123,10 @@ export function UserReviewsSite() {
                   Authorization: `Bearer ${token}`,
                 },
             })
-
-            console.log(response.data)
         }catch (error) {
             setError(error);
             console.error("Error updating review:", error);
         }
-        // try {
-        //     const response = await axios.put(`${serverUrl}/api/review/update.php`,
-        //         {
-        //             id: reviewEditData.id,
-        //             review_text: reviewEditData.review_text,
-        //             rating: reviewEditData.rating,
-        //         },
-        //         {
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 Authorization: `Bearer ${token}`,
-        //             },
-        //         }
-        //     );
-        //
-        //     const result = response.data
-        //     if (result.success) {
-        //         alert("Successfully updated review.");
-        //         window.location.reload(); // Reload the page
-        //     }else {
-        //         alert("Failed to update review, please try again")
-        //     }
-        // } catch (error) {
-        //     setError(error);
-        //     console.error("Error updating review:", error);
-        // }
     };
 
     return (
@@ -195,7 +165,7 @@ export function UserReviewsSite() {
                             const value = e.target.value;
                             setReviewEditData({
                                 ...reviewEditData,
-                                rating: value === "" ? value : Number(value), // Allow empty string
+                                rating: value === "" ? value : Number(value),
                             });
                         }}
                         required

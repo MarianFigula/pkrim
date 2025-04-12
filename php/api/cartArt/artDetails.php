@@ -36,10 +36,8 @@ if ($method !== "POST") {
     exit();
 }
 
-// Get POST data
 $data = json_decode(file_get_contents("php://input"), true);
 
-// Check if artIds are provided
 if (!isset($data['art_ids']) || !is_array($data['art_ids'])) {
     http_response_code(400);
     echo json_encode([
@@ -49,11 +47,9 @@ if (!isset($data['art_ids']) || !is_array($data['art_ids'])) {
     exit();
 }
 
-// Prepare the SQL query to fetch multiple artworks by IDs
-$artIds = implode(",", array_map('intval', $data['art_ids'])); // Sanitize and join IDs into a comma-separated string
+$artIds = implode(",", array_map('intval', $data['art_ids']));
 
-// Fetch art details
-$stmt = $art->getArtByIds($artIds); // Assuming you have a method in Art class to handle this
+$stmt = $art->getArtByIds($artIds);
 $arts = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 

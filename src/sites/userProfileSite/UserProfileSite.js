@@ -10,20 +10,19 @@ import axios from "axios";
 export function UserProfileSite() {
 
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null); // Store user profile data
-    const [error, setError] = useState(null); // Handle errors
+    const [userData, setUserData] = useState(null);
+    const [error, setError] = useState(null);
 
     const { token } = useAuth();
 
-    const serverUrl = process.env.REACT_APP_SERVER_URL
-    // Fetch user profile data
+    const serverUrl = process.env.REACT_APP_SERVER_URL;
     const fetchUserData = async () => {
         setError("")
         try {
             const response = await axios.get(`${serverUrl}/api/user/read.php`, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}` // Add token from context to headers
+                    Authorization: `Bearer ${token}`
                 },
                 params: {
                     user_only: "Y"
@@ -32,9 +31,7 @@ export function UserProfileSite() {
 
             const data = await response.data
             if (data.success) {
-                console.log(data.data)
-                setUserData(data.data); // Set user data
-                console.log(userData)
+                setUserData(data.data);
             }
         } catch (err) {
             if (err.status === 401) {
@@ -46,13 +43,6 @@ export function UserProfileSite() {
     useEffect(() => {
         fetchUserData();
     }, []);
-
-    // Log changes to userData
-    useEffect(() => {
-        if (userData) {
-            console.log("Updated userData:", userData);
-        }
-    }, [userData]);
 
     const handleMyPostsClick = () => {
         navigate(`/my-arts`);
@@ -70,13 +60,13 @@ export function UserProfileSite() {
                 <div className="profile-details mb-1">
                     <div className="">
                         <h2 className="text-center">Your profile</h2>
-                        {userData ? ( // Only render form when userData is not null
+                        {userData ? (
                             <form className="mb-3">
                                 <div className="info">
                                     <label className="label mb-0-25">Username</label>
                                     <input
                                         type="text"
-                                        defaultValue={userData.username} // Use fetched data
+                                        defaultValue={userData.username}
                                         className="input"
                                         readOnly
                                     />
@@ -85,7 +75,7 @@ export function UserProfileSite() {
                                     <label className="label mb-0-25">Email</label>
                                     <input
                                         type="text"
-                                        defaultValue={userData.email} // Use fetched data
+                                        defaultValue={userData.email}
                                         className="input"
                                         readOnly
                                     />
@@ -95,7 +85,6 @@ export function UserProfileSite() {
                             <p>Loading profile...</p>
                         )}
                         <div className="buttons">
-                            {/*<button className="button-dark">order history</button>*/}
                             <button
                                 className="button-dark"
                                 onClick={handleMyPostsClick}
@@ -112,7 +101,6 @@ export function UserProfileSite() {
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

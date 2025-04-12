@@ -57,19 +57,4 @@ if (!isset($data->cart_id)) {
 
 $cart->setId($data->cart_id);
 
-// TODO: if user will be deleted, uncomment code below
-
-//if ($cart->deleteCartById()) {
-//    echo json_encode([
-//        "success" => true,
-//        "message" => "Cart deleted successfully."
-//    ]);
-//} else {
-//    echo json_encode([
-//        "success" => false,
-//        "message" => "Failed to delete cart."
-//    ]);
-//    http_response_code(500);
-//}
-
 ?>

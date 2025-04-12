@@ -26,13 +26,11 @@
  * - 500 Internal Server Error: Failed to create art due to server error.
  */
 
-// IDEA: Consider ideas for checking image duplication
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
 header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
 include_once '../../config/Database.php';
@@ -96,16 +94,14 @@ if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
 try {
     $user_id = $decoded->id;
 
-    // Set the Art properties
     $art->setUserId($user_id);
     $art->setImgUrl($img_url);
     $art->setTitle($title);
     $art->setDescription($description);
     $art->setPrice($price);
 
-    // Insert the art
     if ($art->createArt()) {
-        http_response_code(201); // Created
+        http_response_code(201);
         echo json_encode([
             "success" => true,
             "message" => "Art successfully created.",

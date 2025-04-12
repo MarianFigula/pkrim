@@ -27,9 +27,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Access-Control-Allow-Methods: GET, POST, DELETE, PUT");
-header("Access-Control-Max-Age: 3600"); // Cache the preflight response for 1 hour
+header("Access-Control-Max-Age: 3600");
 
-// Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
@@ -92,20 +91,14 @@ try {
     exit();
 }
 
-
-
-
-// JWT generation
 $payload = [
     "id" => $row['id'],
     "email" => $row['email'],
     "role" => $row['role'],
-    // IDEA: automatic ,,,
-    "exp" => time() + 3600000 // Token expires in 1 hour
+    "exp" => time() + 3600000
 ];
 $jwt = JWT::encode($payload, $key, 'HS256');
 
-// Return the JWT
 http_response_code(200);
 echo json_encode([
     "success" => true,
