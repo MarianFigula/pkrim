@@ -1,9 +1,9 @@
-import { Form } from "../../components/form/Form";
-import { FormInput } from "../../components/formInput/FormInput";
-import { Modal } from "../../components/modal/Modal";
-import React, { useEffect, useState } from "react";
-import { Table } from "../../components/table/Table";
-import { getReviewColumns } from "../../assets/table-columns/tableReviewColumns";
+import {Form} from "../../components/form/Form";
+import {FormInput} from "../../components/formInput/FormInput";
+import {Modal} from "../../components/modal/Modal";
+import React, {useEffect, useState} from "react";
+import {Table} from "../../components/table/Table";
+import {getReviewColumns} from "../../assets/table-columns/tableReviewColumns";
 import axios from "axios";
 import {useAuth} from "../../components/auth/AuthContext";
 
@@ -29,7 +29,7 @@ export function UserReviewsSite() {
         const reviewIds = selectedReviewRows.map(review => review.id);
 
         try {
-            const response= await axios.get(`${serverUrl}/api/review/delete.php`, {
+            const response = await axios.get(`${serverUrl}/api/review/delete.php`, {
                 params: {
                     action: "delete",
                     review_id: reviewIds,
@@ -47,7 +47,7 @@ export function UserReviewsSite() {
         }
     }
 
-    const { token } = useAuth();
+    const {token} = useAuth();
 
     const serverUrl = process.env.REACT_APP_SERVER_URL;
 
@@ -67,10 +67,10 @@ export function UserReviewsSite() {
             });
 
             const result = response.data;
-            if (result.success){
+            if (result.success) {
                 setReviewData(result.data);
                 setReviewRecords(result.data);
-            }else {
+            } else {
                 alert("Error updating artwork")
             }
         } catch (error) {
@@ -115,15 +115,30 @@ export function UserReviewsSite() {
         e.preventDefault();
 
         try {
-            const response = await axios.get(`${serverUrl}/api/review/ssrf.php`, {
-                params: {
-                    url: "http://127.0.0.1:3000/admin/dashboard",
+            const response = await axios.put(
+                `${serverUrl}/api/review/update.php`,
+                {
+                    id: reviewEditData.id,
+                    review_text: reviewEditData.review_text,
+                    rating: reviewEditData.rating,
                 },
-                headers: {
-                  Authorization: `Bearer ${token}`,
-                },
-            })
-        }catch (error) {
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            const result = response.data;
+            if (result.success) {
+                alert("Review updated successfully.");
+                setIsReviewModalOpen(false);
+                window.location.reload();
+            } else {
+                setError(result.message);
+            }
+        } catch (error) {
             setError(error);
             console.error("Error updating review:", error);
         }

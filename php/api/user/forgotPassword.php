@@ -93,11 +93,21 @@ if (!$user->verifySecurityAnswer($data->security_answer, $row['security_answer']
     exit();
 }
 
-$id = $row["id"];
-$role = $row["role"];
-$user->setId($id);
-$user->setPassword($data->password);
-$user->setRole($role);
+try {
+    $id = intval($row["id"]);
+    $role = $row["role"];
+    $user->setId($id);
+    $user->setPassword($data->password);
+    $user->setRole($role);
+} catch (Exception $e){
+    http_response_code(400);
+    echo json_encode([
+        "success" => false,
+        "message" => "Invalid input data."
+    ]);
+    exit();
+}
+
 
 $result = $user->updateUserPassword();
 

@@ -26,9 +26,6 @@ class User {
      * @throws InvalidArgumentException if the ID is not a positive integer
      */
     public function setId($id) {
-        if (!filter_var($id, FILTER_VALIDATE_INT, ["options" => ["min_range" => 1]])) {
-            throw new InvalidArgumentException("Invalid ID: must be a positive integer.");
-        }
         $this->id = $id;
     }    
 
@@ -81,9 +78,9 @@ class User {
     }
 
     public function setRole($role) {
-        $allowedRoles = ['A', 'U'];
+        $allowedRoles = ['S', 'U'];
         if (!in_array($role, $allowedRoles)) {
-            throw new InvalidArgumentException("Invalid Role: must be 'A' or 'U'.");
+            throw new InvalidArgumentException("Invalid Role: must be 'S' or 'U'.");
         }
         $this->role = $role;
     }

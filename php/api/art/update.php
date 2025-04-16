@@ -28,7 +28,7 @@
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Expose-Headers: *");
-header("Access-Control-Allow-Methods: POST, GET");
+header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Content-Type: application/json");
 
